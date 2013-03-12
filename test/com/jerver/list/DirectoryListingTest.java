@@ -1,11 +1,10 @@
-package com.jerver;
+package com.jerver.list;
 
-import org.junit.Before;
+import com.jerver.list.DirectoryListing;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -16,13 +15,8 @@ public class DirectoryListingTest {
     protected DirectoryListing directoryListing = new DirectoryListing(this.path);
 
     @Test
-    public void testGetRootDirectoryPath() {
-        assertEquals(this.path, this.directoryListing.getRootDirectoryPath());
-    }
-
-    @Test
-    public void testGetDirectoryContents() throws IOException {
-        List<Path> contents = directoryListing.getDirectoryList();
-        assertEquals(3, contents.size());
+    public void testGetList() throws IOException {
+        List<Path> directoryPathList = directoryListing.getList();
+        assertEquals(5, directoryPathList.size());
     }
 }

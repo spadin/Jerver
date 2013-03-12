@@ -1,11 +1,11 @@
-package com.jerver;
+package com.jerver.mime;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class MimeTypesTest {
-    protected MimeTypes mimeType = new MimeTypes();
+public class MimeTypeTest {
+    protected MimeType mimeType = new MimeType();
 
     @Test
     public void testGifMimeType() {

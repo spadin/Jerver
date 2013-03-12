@@ -1,4 +1,4 @@
-package com.jerver;
+package com.jerver.mime;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -6,10 +6,10 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class MimeTypes {
-    protected HashMap<String,String> mimeTypes = new HashMap<>();
+public class MimeType {
+    protected HashMap<String,String> mimeType = new HashMap<>();
 
-    public MimeTypes() {
+    public MimeType() {
         try {
             this.loadMimeTypes();
         } catch (IOException e) {
@@ -18,13 +18,13 @@ public class MimeTypes {
     }
 
     private void loadMimeTypes() throws IOException {
-        Path mimeTypesPath = Paths.get("resources/mime.types");
+        Path mimeTypesPath = Paths.get("config/mime.types");
         Scanner scanner = new Scanner(mimeTypesPath);
 
         while(scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] parts = line.split(",");
-            mimeTypes.put(parts[0], parts[1]);
+            mimeType.put(parts[0], parts[1]);
         }
 
         scanner.close();
@@ -43,6 +43,6 @@ public class MimeTypes {
 
     public String getForFilename(String filename) {
         String extension = this.getFilenameExtension(filename);
-        return mimeTypes.get(extension);
+        return mimeType.get(extension);
     }
 }
