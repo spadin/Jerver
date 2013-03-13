@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 public class Request {
     private final RequestInputStreamParser httpRequestInputStream = new RequestInputStreamParser(this);
-    public HashMap<String,String> header = new HashMap<>();
-    public HashMap<String, String> param = new HashMap<>();
+    public HashMap<String, String> header = new HashMap<String, String>();
+    public HashMap<String, String> param = new HashMap<String, String>();
     public String method, uri, body;
     public byte[] bodyContent;
 

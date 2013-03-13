@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class MimeType {
-    protected HashMap<String,String> mimeType = new HashMap<>();
+    protected HashMap<String, String> mimeType = new HashMap<String, String>();
 
     public MimeType() {
         try {

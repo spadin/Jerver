@@ -9,7 +9,7 @@ public class Response {
     public int statusCodeInt;
     private final static ResponseStatusCode statusCode = ResponseStatusCode.INSTANCE;
     private OutputStream outputStream;
-    private List<String> headers = new ArrayList<>();
+    private List<String> headers = new ArrayList<String>();
     private byte[] body;
 
     public Response() {

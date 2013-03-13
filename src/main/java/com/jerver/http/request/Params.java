@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 public class Params {
 
-    public static HashMap<String,String> generateParams(String paramString) {
-        HashMap<String, String> params = new HashMap<>();
+    public static HashMap<String, String> generateParams(String paramString) {
+        HashMap<String, String> params = new HashMap<String, String>();
 
         String[] pairs = paramString.split("&");
         for(int i = 0; i < pairs.length; i++) {

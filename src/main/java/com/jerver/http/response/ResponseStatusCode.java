@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class ResponseStatusCode {
     public final static ResponseStatusCode INSTANCE = new ResponseStatusCode();
 
-    private HashMap<Integer, String> statusCode = new HashMap<>();
+    private HashMap<Integer, String> statusCode = new HashMap<Integer, String>();
 
     private ResponseStatusCode() {
         statusCode.put(100,"Continue");

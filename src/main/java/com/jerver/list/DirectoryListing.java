@@ -12,8 +12,10 @@ public class DirectoryListing implements Listing {
         this.path = Paths.get(path);
     }
     public List<Path> getList() throws IOException {
-        List<Path> result = new ArrayList<>();
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(this.path)) {
+        List<Path> result = new ArrayList<Path>();
+        try {
+            DirectoryStream<Path> stream = Files.newDirectoryStream(this.path);
+
             for (Path entry: stream) {
                 result.add(entry);
             }

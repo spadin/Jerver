@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Router {
-    Map<String, Route> routes = new HashMap<>();
+    Map<String, Route> routes = new HashMap<String, Route>();
     protected static final ResponseStatusCode statusCode = ResponseStatusCode.INSTANCE;
     public static final Router INSTANCE = new Router();
 
