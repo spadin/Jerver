@@ -1,10 +1,12 @@
 package com.jerver.http.route;
 
+import com.jerver.http.mock.MockResponse;
 import com.jerver.http.request.Request;
-import com.jerver.http.response.Response;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.containsString;
 
 public class StringRouteTest {
     StringRoute route = new StringRoute("Hello World!");
@@ -17,7 +19,9 @@ public class StringRouteTest {
     @Test
     public void testNewStringRoute() throws Exception {
         Request request = new Request();
-        Response response = new Response();
-        assertEquals("Hello World!", new String(route.resolve(request, response)));
+        MockResponse response = new MockResponse();
+        route.resolve(request, response);
+
+        assertThat(response.getResponseText(), containsString("Hello World!"));
     }
 }

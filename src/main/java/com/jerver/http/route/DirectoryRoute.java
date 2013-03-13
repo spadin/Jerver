@@ -39,7 +39,7 @@ public class DirectoryRoute implements Route {
         html.append("</li>");
     }
 
-    public byte[] resolve(Request request, Response response) {
+    public byte[] getBody() {
         StringBuilder html = new StringBuilder();
 
         html.append("<!DOCTYPE html><html><body><h1>Directory Listing</h1><ul>");
@@ -56,6 +56,12 @@ public class DirectoryRoute implements Route {
         html.append("</ul></body></html>");
 
         return html.toString().getBytes();
+    }
+
+    public void resolve(Request request, Response response) {
+        response.setStatusCode(200);
+        response.appendHeader("Content-Type: " + getContentType());
+        response.setBody(getBody());
     }
 
     private boolean isHidden(Path path) {

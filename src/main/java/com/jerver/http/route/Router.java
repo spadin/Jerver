@@ -44,13 +44,10 @@ public class Router {
         Route route = routes.get(getKey(request.method, request.uri));
         if(route == null) {
             route = new FourOhFourRoute();
-            response.setStatusCode(404);
-            response.appendHeader("Content-type: " + route.getContentType());
-            response.setBody(route.resolve(request, response));
+            route.resolve(request, response);
+
         } else {
-            response.setStatusCode(200);
-            response.appendHeader("Content-Type: " + route.getContentType());
-            response.setBody(route.resolve(request, response));
+            route.resolve(request, response);
         }
         return response;
     }

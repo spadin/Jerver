@@ -9,10 +9,15 @@ public class StringRoute implements Route {
     public StringRoute(String responseText) {
         this.responseText = responseText;
     }
-    public byte[] resolve(Request request, Response response) {
-        return responseText.getBytes();
+    public void resolve(Request request, Response response) {
+        response.setStatusCode(200);
+        response.appendHeader("Content-Type: " + getContentType());
+        response.setBody(getBody());
     }
     public String getContentType() {
         return "text/plain";
+    }
+    public byte[] getBody() {
+        return responseText.getBytes();
     }
 }

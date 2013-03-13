@@ -12,7 +12,13 @@ public class FourOhFourRoute implements Route {
         return "text/html";
     }
 
-    public byte[] resolve(Request request, Response response) {
+    public byte[] getBody() {
         return "<!DOCTYPE html><html><body><h1>File not found</h1></body></html>".getBytes();
+    }
+
+    public void resolve(Request request, Response response) {
+        response.setStatusCode(404);
+        response.appendHeader("Content-type: " + getContentType());
+        response.setBody(getBody());
     }
 }

@@ -1,7 +1,7 @@
 package com.jerver.http.route;
 
+import com.jerver.http.mock.MockResponse;
 import com.jerver.http.request.Request;
-import com.jerver.http.response.Response;
 import org.junit.Test;
 
 import java.nio.file.Paths;
@@ -21,8 +21,9 @@ public class DirectoryRouteTest {
     @Test
     public void testDirectoryRoute() throws Exception {
         Request request = new Request();
-        Response response = new Response();
+        MockResponse response = new MockResponse();
+        route.resolve(request, response);
 
-        assertThat(new String(route.resolve(request, response)), containsString("test"));
+        assertThat(response.getResponseText(), containsString("test"));
     }
 }
