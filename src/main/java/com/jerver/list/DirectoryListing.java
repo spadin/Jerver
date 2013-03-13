@@ -8,10 +8,10 @@ import java.util.List;
 public class DirectoryListing implements Listing {
     protected Path path;
 
-    public DirectoryListing(String path) {
-        this.path = Paths.get(path);
+    public DirectoryListing(Path path) {
+        this.path = path;
     }
-    public List<Path> getList() throws IOException {
+    public List<Path> getList() {
         List<Path> result = new ArrayList<Path>();
         try {
             DirectoryStream<Path> stream = Files.newDirectoryStream(this.path);
@@ -20,7 +20,9 @@ public class DirectoryListing implements Listing {
                 result.add(entry);
             }
         } catch (DirectoryIteratorException ex) {
-            throw ex.getCause();
+            System.out.println("Failed directory iterator.");
+        } catch (IOException e) {
+            System.out.println("Failed to list directory.");
         }
         return result;
     }
