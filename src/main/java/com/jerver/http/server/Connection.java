@@ -24,11 +24,12 @@ public class Connection implements Runnable {
             response.setOutputStream(server.getOutputStream());
 
             router.resolve(request, response);
-
-            response.setStatusCode(200);
             response.write();
 
-            System.out.println(request.method + " " + request.uri);
+            if(request.method != null &&
+               request.uri != null) {
+                System.out.println(response.status + " " + request.method + " " + request.uri);
+            }
 
             server.close();
         } catch(IOException e) {
