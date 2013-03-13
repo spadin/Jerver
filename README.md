@@ -13,3 +13,8 @@ something to this effect:
 
     export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
 
+You can also run some test coverage:
+
+    $ mvn cobertura:cobertura
+
+Then open the report at `/target/site/cobertura/index.html`
