@@ -18,8 +18,7 @@ public class Connection implements Runnable {
     public void run() {
         Request request = new Request();
         Response response = new Response();
-        router.addRoute("GET", "/hello", "Hello World!");
-        router.addRoute("GET", "/goodbye", "So long.");
+
         try {
             request.parseInputStream(server.getInputStream());
             response.setOutputStream(server.getOutputStream());
