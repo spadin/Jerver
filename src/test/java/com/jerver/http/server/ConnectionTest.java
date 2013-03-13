@@ -11,6 +11,8 @@ import java.net.Socket;
 
 import static com.jerver.http.HttpHelper.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.containsString;
 
 public class ConnectionTest {
     @Test
@@ -29,6 +31,6 @@ public class ConnectionTest {
 
         System.setOut(original);
 
-        assertEquals(output.toString(), "HTTP/1.1 404 Not Found\r\n\r\n");
+        assertThat(output.toString(), containsString("HTTP/1.1 404 Not Found"));
     }
 }
