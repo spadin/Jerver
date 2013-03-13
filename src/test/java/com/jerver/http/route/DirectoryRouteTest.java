@@ -1,5 +1,7 @@
 package com.jerver.http.route;
 
+import com.jerver.http.request.Request;
+import com.jerver.http.response.Response;
 import org.junit.Test;
 
 import java.nio.file.Paths;
@@ -18,6 +20,9 @@ public class DirectoryRouteTest {
 
     @Test
     public void testDirectoryRoute() throws Exception {
-        assertThat(new String(route.resolve()), containsString("test"));
+        Request request = new Request();
+        Response response = new Response();
+
+        assertThat(new String(route.resolve(request, response)), containsString("test"));
     }
 }

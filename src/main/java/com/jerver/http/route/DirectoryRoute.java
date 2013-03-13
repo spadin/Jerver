@@ -1,5 +1,7 @@
 package com.jerver.http.route;
 
+import com.jerver.http.request.Request;
+import com.jerver.http.response.Response;
 import com.jerver.list.DirectoryListing;
 
 import java.io.IOException;
@@ -37,7 +39,7 @@ public class DirectoryRoute implements Route {
         html.append("</li>");
     }
 
-    public byte[] resolve() {
+    public byte[] resolve(Request request, Response response) {
         StringBuilder html = new StringBuilder();
 
         html.append("<!DOCTYPE html><html><body><h1>Directory Listing</h1><ul>");

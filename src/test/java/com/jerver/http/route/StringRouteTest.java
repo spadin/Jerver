@@ -1,5 +1,7 @@
 package com.jerver.http.route;
 
+import com.jerver.http.request.Request;
+import com.jerver.http.response.Response;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -14,6 +16,8 @@ public class StringRouteTest {
 
     @Test
     public void testNewStringRoute() throws Exception {
-        assertEquals("Hello World!", new String(route.resolve()));
+        Request request = new Request();
+        Response response = new Response();
+        assertEquals("Hello World!", new String(route.resolve(request, response)));
     }
 }
