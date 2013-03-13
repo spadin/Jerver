@@ -8,11 +8,11 @@ import java.io.*;
 import java.net.Socket;
 
 public class Connection implements Runnable {
-    protected Socket server;
+    protected Socket socket;
     private static final Router router = Router.INSTANCE;
 
-    public Connection(Socket server) {
-        this.server = server;
+    public Connection(Socket socket) {
+        this.socket = socket;
     }
 
     public void run() {
@@ -20,8 +20,8 @@ public class Connection implements Runnable {
         Response response = new Response();
 
         try {
-            request.parseInputStream(server.getInputStream());
-            response.setOutputStream(server.getOutputStream());
+            request.parseInputStream(socket.getInputStream());
+            response.setOutputStream(socket.getOutputStream());
 
             router.resolve(request, response);
             response.write();
@@ -31,7 +31,7 @@ public class Connection implements Runnable {
                 System.out.println(response.status + " " + request.method + " " + request.uri);
             }
 
-            server.close();
+            socket.close();
         } catch(IOException e) {
             System.out.println("Failed to run connection");
         }

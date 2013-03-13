@@ -8,10 +8,10 @@ public class Server {
     public Server(int port) {
         try {
             ServerSocket listener = new ServerSocket(port);
-            Socket server;
+            Socket socket;
             while (true) {
-                server = listener.accept();
-                Connection connection = new Connection(server);
+                socket = listener.accept();
+                Connection connection = new Connection(socket);
                 Thread t = new Thread(connection);
                 t.start();
             }
