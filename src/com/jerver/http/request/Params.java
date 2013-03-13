@@ -1,8 +1,8 @@
-package com.jerver.http;
+package com.jerver.http.request;
 
 import java.util.HashMap;
 
-public class HttpParams {
+public class Params {
 
     public static HashMap<String,String> generateParams(String paramString) {
         HashMap<String, String> params = new HashMap<>();

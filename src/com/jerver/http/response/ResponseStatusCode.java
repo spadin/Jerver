@@ -1,13 +1,13 @@
-package com.jerver.http;
+package com.jerver.http.response;
 
 import java.util.HashMap;
 
-public class HttpResponseStatusCode {
-    public final static HttpResponseStatusCode INSTANCE = new HttpResponseStatusCode();
+public class ResponseStatusCode {
+    public final static ResponseStatusCode INSTANCE = new ResponseStatusCode();
 
     private HashMap<Integer, String> statusCode = new HashMap<>();
 
-    private HttpResponseStatusCode() {
+    private ResponseStatusCode() {
         statusCode.put(100,"Continue");
         statusCode.put(101,"Switching Protocols");
         statusCode.put(102,"Processing");

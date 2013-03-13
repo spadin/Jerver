@@ -1,18 +1,16 @@
-package com.jerver.http;
+package com.jerver.http.request;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-
 import static org.junit.Assert.assertEquals;
 
-public class HttpRequestTest {
-    HttpRequest request;
+public class RequestTest {
+    Request request;
 
     @Before
     public void setUp() throws Exception {
-        request = new HttpRequest();
+        request = new Request();
     }
 
     @Test

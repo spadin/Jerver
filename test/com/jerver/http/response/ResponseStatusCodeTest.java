@@ -1,11 +1,11 @@
-package com.jerver.http;
+package com.jerver.http.response;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class HttpResponseStatusCodeTest {
-    HttpResponseStatusCode statusCode = HttpResponseStatusCode.INSTANCE;
+public class ResponseStatusCodeTest {
+    ResponseStatusCode statusCode = ResponseStatusCode.INSTANCE;
 
     @Test
     public void test200StatusCodePhrase() throws Exception {

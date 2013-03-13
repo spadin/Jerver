@@ -1,18 +1,18 @@
-package com.jerver.http;
+package com.jerver.http.request;
 
 import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import static org.junit.Assert.assertEquals;
 
-public class HttpRequestInputStreamParserTest {
-    HttpRequestInputStreamParser requestInputStream;
-    HttpRequest request;
+public class RequestInputStreamParserTest {
+    RequestInputStreamParser requestInputStream;
+    Request request;
 
     @Before
     public void setUp() throws Exception {
-        request = new HttpRequest();
-        requestInputStream = new HttpRequestInputStreamParser(request);
+        request = new Request();
+        requestInputStream = new RequestInputStreamParser(request);
 
     }
 

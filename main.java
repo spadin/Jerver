@@ -1,7 +1,7 @@
-import com.jerver.http.HttpServer;
+import com.jerver.http.server.Server;
 
 class Jerver {
     public static void main(String[]args) {
-        HttpServer server = new HttpServer(9999);
+        Server server = new Server(9999);
     }
 }

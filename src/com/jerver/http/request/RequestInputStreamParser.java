@@ -1,15 +1,15 @@
-package com.jerver.http;
+package com.jerver.http.request;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class HttpRequestInputStreamParser {
-    private final HttpRequest httpRequest;
+public class RequestInputStreamParser {
+    private final Request request;
 
-    public HttpRequestInputStreamParser(HttpRequest httpRequest) {
-        this.httpRequest = httpRequest;
+    public RequestInputStreamParser(Request request) {
+        this.request = request;
     }
 
     public void parse(InputStream is) {
@@ -26,10 +26,10 @@ public class HttpRequestInputStreamParser {
                 if (readingHeaders) {
                     if (detectDoubleCRLF(bis)) {
                         baos.flush();
-                        httpRequest.setRequestHeader(baos.toString().trim());
+                        request.setRequestHeader(baos.toString().trim());
                         baos.reset();
 
-                        if (!httpRequest.hasContentLength()) {
+                        if (!request.hasContentLength()) {
                             break;
                         } else {
                             bis.skip(4);
@@ -39,17 +39,17 @@ public class HttpRequestInputStreamParser {
                         baos.flush();
 
                         if (firstLine) {
-                            httpRequest.setRequestLine(baos.toString().trim());
+                            request.setRequestLine(baos.toString().trim());
                             firstLine = false;
                         } else {
-                            httpRequest.setRequestHeader(baos.toString().trim());
+                            request.setRequestHeader(baos.toString().trim());
                         }
 
                         baos.reset();
                     }
                 } else {
-                    if (baos.size() == httpRequest.getContentLength()) {
-                        httpRequest.setBody(baos.toByteArray());
+                    if (baos.size() == request.getContentLength()) {
+                        request.setBody(baos.toByteArray());
                         break;
                     }
                 }

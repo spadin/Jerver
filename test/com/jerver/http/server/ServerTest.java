@@ -1,8 +1,8 @@
-package com.jerver.http;
+package com.jerver.http.server;
 
 import org.junit.Test;
 
-public class HttpConnectionTest {
+public class ServerTest {
     @Test
     public void testConnection() {
 

@@ -1,17 +1,17 @@
-package com.jerver.http;
+package com.jerver.http.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class HttpServer {
-    public HttpServer(int port) {
+public class Server {
+    public Server(int port) {
         try {
             ServerSocket listener = new ServerSocket(port);
             Socket server;
             while (true) {
                 server = listener.accept();
-                HttpConnection connection = new HttpConnection(server);
+                Connection connection = new Connection(server);
                 Thread t = new Thread(connection);
                 t.start();
             }

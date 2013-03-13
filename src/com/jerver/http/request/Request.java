@@ -1,17 +1,17 @@
-package com.jerver.http;
+package com.jerver.http.request;
 
 import java.io.*;
 import java.util.HashMap;
 
-public class HttpRequest {
-    private final HttpRequestInputStreamParser httpRequestInputStream = new HttpRequestInputStreamParser(this);
+public class Request {
+    private final RequestInputStreamParser httpRequestInputStream = new RequestInputStreamParser(this);
     public HashMap<String,String> header = new HashMap<>();
     public HashMap<String, String> param = new HashMap<>();
     public String method, uri, body;
     public byte[] bodyContent;
 
 
-    public HttpRequest() {
+    public Request() {
 
     }
 
@@ -28,17 +28,17 @@ public class HttpRequest {
 
     void generateParams() {
         if(method.equals("POST")) {
-            param = HttpParams.generateParams(getBody());
+            param = Params.generateParams(getBody());
         } else if (method.equals("GET")) {
             String[] parts = uri.split("\\?", 2);
             if(parts.length == 2) {
                 String queryString = parts[1];
-                param = HttpParams.generateParams(queryString);
+                param = Params.generateParams(queryString);
             }
         }
     }
 
-    void parseInputStream(InputStream inputStream) {
+    public void parseInputStream(InputStream inputStream) {
         httpRequestInputStream.parse(inputStream);
         generateParams();
     }
