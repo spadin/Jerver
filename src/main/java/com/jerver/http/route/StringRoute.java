@@ -3,7 +3,7 @@ package com.jerver.http.route;
 import com.jerver.http.request.Request;
 import com.jerver.http.response.Response;
 
-public class StringRoute implements Route {
+public class StringRoute implements Routable {
     protected String responseText;
 
     public StringRoute(String responseText) {

@@ -8,13 +8,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class DirectoryRoute implements Route {
+public class DirectoryRoute implements Routable {
     private final DirectoryListing directoryListing;
     private final Path rootPath;
     private final Path directoryPath;
 
     public DirectoryRoute(Path path, Path rootPath) {
-//        rootPath = Paths.get(rootPathStr);
         this.rootPath = rootPath;
         this.directoryPath = rootPath.resolve(path);
         this.directoryListing = new DirectoryListing(directoryPath);

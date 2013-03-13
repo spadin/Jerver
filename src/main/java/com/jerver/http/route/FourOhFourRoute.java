@@ -3,7 +3,7 @@ package com.jerver.http.route;
 import com.jerver.http.request.Request;
 import com.jerver.http.response.Response;
 
-public class FourOhFourRoute implements Route {
+public class FourOhFourRoute implements Routable {
     public FourOhFourRoute() {
 
     }
