@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Response {
-    public int statusCodeInt;
+    public int status;
     private final static ResponseStatusCode statusCode = ResponseStatusCode.INSTANCE;
     private OutputStream outputStream;
     private List<String> headers = new ArrayList<String>();
@@ -17,11 +17,11 @@ public class Response {
     }
 
     public void setStatusCode(int statusCodeInt) {
-        this.statusCodeInt = statusCodeInt;
+        this.status = statusCodeInt;
     }
 
     public String getStatusLine() {
-        return statusCode.getStatusLine(statusCodeInt);
+        return statusCode.getStatusLine(status);
     }
 
     public void setOutputStream(OutputStream outputStream) {
