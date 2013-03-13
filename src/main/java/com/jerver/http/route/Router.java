@@ -33,8 +33,8 @@ public class Router {
             response.setStatusCode(404);
         } else {
             response.setStatusCode(200);
-            response.appendHeader("Content-Type: text/plain");
-            response.setBody(route.resolve().getBytes());
+            response.appendHeader("Content-Type: " + route.getContentType());
+            response.setBody(route.resolve());
         }
         return response;
     }

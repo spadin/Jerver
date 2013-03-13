@@ -6,7 +6,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 
 public class DirectoryRoute implements Route {
     private final DirectoryListing directoryListing;
@@ -38,7 +37,7 @@ public class DirectoryRoute implements Route {
         html.append("</li>");
     }
 
-    public String resolve() {
+    public byte[] resolve() {
         StringBuilder html = new StringBuilder();
 
         html.append("<!DOCTYPE html><html><body><h1>Directory Listing</h1><ul>");
@@ -53,6 +52,10 @@ public class DirectoryRoute implements Route {
 
         html.append("</ul></body></html>");
 
-        return html.toString();
+        return html.toString().getBytes();
+    }
+
+    public String getContentType() {
+        return "text/html";
     }
 }

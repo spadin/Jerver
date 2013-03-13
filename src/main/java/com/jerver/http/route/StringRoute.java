@@ -6,7 +6,10 @@ public class StringRoute implements Route {
     public StringRoute(String responseText) {
         this.responseText = responseText;
     }
-    public String resolve() {
-        return responseText;
+    public byte[] resolve() {
+        return responseText.getBytes();
+    }
+    public String getContentType() {
+        return "text/plain";
     }
 }

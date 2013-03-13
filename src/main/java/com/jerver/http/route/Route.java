@@ -1,5 +1,6 @@
 package com.jerver.http.route;
 
 public interface Route {
-    public String resolve();
+    public byte[] resolve();
+    public String getContentType();
 }
