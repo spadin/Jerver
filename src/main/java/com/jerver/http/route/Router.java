@@ -19,24 +19,15 @@ public class Router {
         routes.put(getKey(method, uri), new StringRoute(responseString));
     }
 
+    public void addRoute(String method, String uri, Route route) {
+        routes.put(getKey(method, uri), route);
+    }
+
     private String getKey(String method, String uri) {
         return method + " " + uri;
     }
 
-    public String resolve(String method, String uri) {
-        Route route = routes.get(getKey(method, uri));
-        String response = null;
-        if(route == null) {
-            response = buildResponse(404, "");
-        } else {
-            response = buildResponse(200, route.resolve());
-        }
-
-        return response;
-    }
-
     public Response resolve(Request request, Response response) {
-        // System.out.println("Router resolving: " + " " + request.method + " " + request.uri);
         Route route = routes.get(getKey(request.method, request.uri));
         if(route == null) {
             response.setStatusCode(404);
@@ -48,11 +39,12 @@ public class Router {
         return response;
     }
 
-    private String buildResponse(int statusCodeInt, String responseBody) {
-        return statusCode.getStatusLine(statusCodeInt) +"\r\n\r\n"+ responseBody;
-    }
-
     public boolean routeExists(Request request) {
         return (routes.get(getKey(request.method, request.uri)) != null);
+    }
+
+    public void setPublicDirectory(String directoryPath) {
+        Route route = new DirectoryRoute("", directoryPath);
+        addRoute("GET", "/", route);
     }
 }
