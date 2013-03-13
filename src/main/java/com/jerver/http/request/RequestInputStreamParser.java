@@ -50,6 +50,7 @@ public class RequestInputStreamParser {
                 } else {
                     if (baos.size() == request.getContentLength()) {
                         request.setBody(baos.toByteArray());
+                        baos.close();
                         break;
                     }
                 }

@@ -27,6 +27,10 @@ public class Request {
     }
 
     void generateParams() {
+        if(method == null) {
+            return;
+        }
+
         if(method.equals("POST")) {
             param = Params.generateParams(getBody());
         } else if (method.equals("GET")) {
