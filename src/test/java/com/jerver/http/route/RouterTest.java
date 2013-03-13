@@ -5,6 +5,8 @@ import com.jerver.http.mock.MockResponse;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.containsString;
 
 import com.jerver.http.mock.MockRequest;
 
@@ -33,6 +35,17 @@ public class RouterTest {
         router.addRoute("GET", "/hello", "Hello World!");
         router.resolve(request, response);
 
-        assertEquals("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 12\r\n\r\nHello World!", response.getResponseText());
+        assertThat(response.getResponseText(), containsString("Hello World!"));
+    }
+
+    @Test
+    public void testSetPublicDirectory() throws Exception {
+        router.setPublicDirectory("resources");
+
+        Request request = new MockRequest("GET", "/");
+        MockResponse response = new MockResponse();
+        router.resolve(request, response);
+
+        assertEquals(200, response.status);
     }
 }
