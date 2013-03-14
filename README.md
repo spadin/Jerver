@@ -4,12 +4,12 @@ Jerver - _A Java-based Server_
 Usage
 -----
 
-  $ java -jar /path/to/jerver.jar -p 9999 -d /path/to/public
+    $ java -jar /path/to/jerver.jar -p 9999 -d /path/to/public
 
 Options flags:
 
-  -p  port
-  -d  public directory
+    -p  port
+    -d  public directory
 
 Development
 -----------
