@@ -14,7 +14,7 @@ public class SleepyRoute implements Routable{
     }
 
     public void resolve(Request request, Response response) {
-        response.setStatusCode(404);
+        response.setStatusCode(200);
         response.appendHeader("Content-type: " + getContentType());
         response.setBody(getBody());
     }
