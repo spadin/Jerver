@@ -30,7 +30,6 @@ public class Server {
         router.setPublicDirectory("src/test/resources");
         router.addRoute("GET", "/hello", "Hello World!");
         router.addRoute("GET", "/time", new SleepyRoute(1000));
-        router.addRoute("GET", "/time", new SleepyRoute(1000));
 
         new Server(9999);
     }
