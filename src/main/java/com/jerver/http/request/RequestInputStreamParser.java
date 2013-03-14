@@ -52,6 +52,7 @@ public class RequestInputStreamParser {
                         request.setBody(baos.toByteArray());
                         baos.close();
                         bis.close();
+                        is.close();
                         break;
                     }
                 }

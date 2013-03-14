@@ -57,13 +57,10 @@ public class Request {
 
     void setBody(byte[] bytes) {
         bodyContent = bytes;
+        body = new String(bodyContent);
     }
 
     String getBody() {
-        if(body == null) {
-           body = new String(bodyContent);
-        }
-
         return body;
     }
 }

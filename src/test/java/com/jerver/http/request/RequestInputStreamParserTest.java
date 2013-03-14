@@ -33,10 +33,12 @@ public class RequestInputStreamParserTest {
         String str = "\r\n";
         ByteArrayInputStream bais = new ByteArrayInputStream(str.getBytes());
         assertEquals(true, requestInputStream.detectCRLF(bais));
+        bais.close();
 
         str = "no newline";
         bais = new ByteArrayInputStream(str.getBytes());
         assertEquals(false, requestInputStream.detectCRLF(bais));
+        bais.close();
     }
 
     @Test
