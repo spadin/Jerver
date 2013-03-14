@@ -1,4 +1,5 @@
 import com.jerver.http.route.Router;
+import com.jerver.http.route.SleepyRoute;
 import com.jerver.http.server.Server;
 
 class Jerver {
@@ -6,7 +7,7 @@ class Jerver {
     public static void main(String[]args) {
         router.setPublicDirectory("resources");
         router.addRoute("GET", "/hello", "Hello World!");
-        router.addRoute("GET", "/goodbye", "So long.");
+        router.addRoute("GET", "/time", new SleepyRoute(1000));
 
         Server server = new Server(9999);
     }
