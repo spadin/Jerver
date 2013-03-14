@@ -6,19 +6,21 @@ import com.jerver.http.route.SleepyRoute;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
     private static final Router router = Router.INSTANCE;
 
     public Server(int port) {
+        ExecutorService executor = Executors.newFixedThreadPool(30);
         try {
             ServerSocket listener = new ServerSocket(port);
             Socket socket;
             while (true) {
                 socket = listener.accept();
                 Connection connection = new Connection(socket);
-                Thread t = new Thread(connection);
-                t.start();
+                executor.execute(connection);
             }
         } catch (IOException e) {
             System.out.println("IOException on binding to port: " + port);
