@@ -43,6 +43,6 @@ Then open the report at `/target/site/cobertura/index.html`
 
 To generate a new package from the project
 
-  $ mvn clean package
+    $ mvn clean package
 
 You should now find `jerver.jar ` inside the `target` directory.
