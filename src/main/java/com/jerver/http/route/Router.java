@@ -61,7 +61,6 @@ public class Router {
 
     public void setPublicDirectory(String publicDirectoryPathStr) {
         publicDirectoryPath = Paths.get(publicDirectoryPathStr);
-        addRoute("GET", "/", Paths.get(""));
         DirectoryRouteVisitor directoryRoutesVisitor = new DirectoryRouteVisitor();
         try {
             Files.walkFileTree(publicDirectoryPath, directoryRoutesVisitor);

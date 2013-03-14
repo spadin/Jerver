@@ -44,7 +44,7 @@ public class DirectoryRoute implements Routable {
         html.append("<!DOCTYPE html><html><body><h1>Directory Listing</h1><ul>");
 
         if(!rootPath.relativize(directoryPath).toString().equals("")) {
-            html.append("<li>Parent directory..</li>");
+            html.append("<li><a href=\"../\">Parent directory</a></li>");
         }
 
         for(Path path: directoryListing.getList()) {
