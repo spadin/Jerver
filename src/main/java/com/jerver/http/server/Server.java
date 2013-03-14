@@ -21,8 +21,7 @@ public class Server {
             while (true) {
                 socket = listener.accept();
                 Connection connection = new Connection(socket);
-                Thread t = new Thread(connection);
-                t.start();
+                connection.run();
             }
         } catch (IOException e) {
             System.out.println("IOException on binding to port: " + port);
