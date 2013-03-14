@@ -8,8 +8,9 @@ import java.util.Scanner;
 
 public class MimeType {
     protected HashMap<String, String> mimeType = new HashMap<String, String>();
+    public static final MimeType INSTANCE = new MimeType();
 
-    public MimeType() {
+    private MimeType() {
         try {
             this.loadMimeTypes();
         } catch (IOException e) {

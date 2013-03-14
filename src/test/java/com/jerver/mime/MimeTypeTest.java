@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class MimeTypeTest {
-    protected MimeType mimeType = new MimeType();
+    protected static final MimeType mimeType = MimeType.INSTANCE;
 
     @Test
     public void testGifMimeType() {
