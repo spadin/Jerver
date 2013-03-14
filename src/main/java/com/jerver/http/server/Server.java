@@ -9,11 +9,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Paths;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
     private static final Router router = Router.INSTANCE;
 
     public Server(int port) {
+        ExecutorService executor = Executors.newFixedThreadPool(30);
         try {
             ServerSocket listener = new ServerSocket(port);
             System.out.println("Jerver started at http://localhost:" + port);
@@ -21,8 +24,7 @@ public class Server {
             while (true) {
                 socket = listener.accept();
                 Connection connection = new Connection(socket);
-                Thread t = new Thread(connection);
-                t.start();
+                executor.execute(connection);
             }
         } catch (IOException e) {
             System.out.println("IOException on binding to port: " + port);
