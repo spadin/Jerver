@@ -17,12 +17,13 @@ public class RouterTest {
     public void testRouteExists() throws Exception {
         Request request;
 
+        router.reset();
         router.addRoute("GET", "/hello", "Hello World!");
 
         request = new MockRequest("GET", "/hello");
         assertEquals(true, router.routeExists(request));
 
-        request = new MockRequest("GET", "/");
+        request = new MockRequest("GET", "/does-not-exist");
         assertEquals(false, router.routeExists(request));
 
     }
@@ -32,6 +33,7 @@ public class RouterTest {
         Request request = new MockRequest("GET", "/hello");
         MockResponse response = new MockResponse();
 
+        router.reset();
         router.addRoute("GET", "/hello", "Hello World!");
         router.resolve(request, response);
 
@@ -40,9 +42,22 @@ public class RouterTest {
 
     @Test
     public void testSetPublicDirectory() throws Exception {
+        router.reset();
         router.setPublicDirectory("resources");
 
         Request request = new MockRequest("GET", "/");
+        MockResponse response = new MockResponse();
+        router.resolve(request, response);
+
+        assertEquals(200, response.status);
+    }
+
+    @Test
+    public void testPublicRoutesAreProperlyAdded() throws Exception {
+        router.reset();
+        router.setPublicDirectory("resources");
+
+        Request request = new MockRequest("GET", "/test.txt");
         MockResponse response = new MockResponse();
         router.resolve(request, response);
 

@@ -3,19 +3,25 @@ package com.jerver.http.route;
 import com.jerver.http.request.Request;
 import com.jerver.http.response.Response;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import static java.nio.file.FileVisitResult.*;
+import static java.nio.file.FileVisitOption.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Router {
     Map<String, Routable> routes = new HashMap<String, Routable>();
-    public static final Router INSTANCE = new Router();
+    public static Router INSTANCE = new Router();
     private Path publicDirectoryPath;
 
     private Router() {
 
+    }
+
+    void reset() {
+        INSTANCE = new Router();
     }
     public void addRoute(String method, String uri, String responseString) {
         addRoute(method, uri, new StringRoute(responseString));
@@ -56,5 +62,20 @@ public class Router {
     public void setPublicDirectory(String publicDirectoryPathStr) {
         publicDirectoryPath = Paths.get(publicDirectoryPathStr);
         addRoute("GET", "/", Paths.get(""));
+        DirectoryRouteVisitor directoryRoutesVisitor = new DirectoryRouteVisitor();
+        try {
+            Files.walkFileTree(publicDirectoryPath, directoryRoutesVisitor);
+        } catch (IOException e) {
+            System.out.println("Failed to walk file tree.");
+        }
+    }
+
+    private class DirectoryRouteVisitor extends SimpleFileVisitor<Path> {
+        @Override
+        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+            String uri = "/" + publicDirectoryPath.relativize(file);
+            addRoute("GET", uri, new FileRoute(file));
+            return CONTINUE;
+        }
     }
 }
