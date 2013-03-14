@@ -19,6 +19,8 @@ public class DirectoryListing implements Listing {
             for (Path entry: stream) {
                 result.add(entry);
             }
+
+            stream.close();
         } catch (DirectoryIteratorException ex) {
             System.out.println("Failed directory iterator.");
         } catch (IOException e) {

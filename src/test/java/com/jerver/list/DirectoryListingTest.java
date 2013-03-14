@@ -2,7 +2,6 @@ package com.jerver.list;
 
 import org.junit.Test;
 
-import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.List;

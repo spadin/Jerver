@@ -55,6 +55,7 @@ public class Response {
                 outputStream.write(body);
             }
 
+            outputStream.close();
         } catch (IOException e) {
             System.out.println("Failed writing response");
         }
