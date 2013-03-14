@@ -13,11 +13,8 @@ import java.util.Map;
 public class StringSubstitutionRoute implements Routable {
     private String template;
     private static final MimeType mimeType = MimeType.INSTANCE;
-    private final Path filepath;
 
     public StringSubstitutionRoute(Path filepath) {
-        this.filepath = filepath;
-
         try {
             this.template = new String(Files.readAllBytes(filepath));
         } catch (IOException e) {
@@ -26,8 +23,12 @@ public class StringSubstitutionRoute implements Routable {
         }
     }
 
+    public StringSubstitutionRoute(String template) {
+        this.template = template;
+    }
+
     public String getContentType() {
-        return mimeType.getForFilename(filepath.getFileName().toString());
+        return mimeType.getForFilename("text/html");
     }
 
     public byte[] getBody(Request request) {

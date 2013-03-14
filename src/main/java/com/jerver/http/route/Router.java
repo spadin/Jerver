@@ -64,6 +64,7 @@ public class Router {
         DirectoryRouteVisitor directoryRoutesVisitor = new DirectoryRouteVisitor();
         try {
             Files.walkFileTree(publicDirectoryPath, directoryRoutesVisitor);
+            System.out.println("Public directory set to " + publicDirectoryPath.toAbsolutePath());
         } catch (IOException e) {
             System.out.println("Failed to walk file tree.");
         }

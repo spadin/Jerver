@@ -1,6 +1,10 @@
 package com.jerver.mime;
 
+import com.jerver.resource.Resource;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -19,10 +23,10 @@ public class MimeType {
     }
 
     private void loadMimeTypes() throws IOException {
-        Path mimeTypesPath = Paths.get("config/mime.types");
-        Scanner scanner = new Scanner(mimeTypesPath);
+        String mimeTypes = Resource.getStringForResource("mime.types");
+        Scanner scanner = new Scanner(mimeTypes);
 
-        while(scanner.hasNextLine()) {
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] parts = line.split(",");
             mimeType.put(parts[0], parts[1]);

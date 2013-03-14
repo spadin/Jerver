@@ -1,9 +1,7 @@
 package com.jerver.http.server;
 
-import com.jerver.http.route.FileRoute;
-import com.jerver.http.route.Router;
-import com.jerver.http.route.SleepyRoute;
-import com.jerver.http.route.StringSubstitutionRoute;
+import com.jerver.http.route.*;
+import com.jerver.resource.Resource;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -16,6 +14,7 @@ public class Server {
     public Server(int port) {
         try {
             ServerSocket listener = new ServerSocket(port);
+            System.out.println("Jerver started at http://localhost:" + port);
             Socket socket;
             while (true) {
                 socket = listener.accept();
@@ -33,8 +32,8 @@ public class Server {
         router.setPublicDirectory("src/test/resources");
         router.addRoute("GET", "/hello", "Hello World!");
         router.addRoute("GET", "/time", new SleepyRoute(1000));
-        router.addRoute("GET", "/form", new FileRoute(Paths.get("src/main/resources/form.html")));
-        router.addRoute("POST", "/form", new StringSubstitutionRoute(Paths.get("src/main/resources/form.jrv.html")));
+        router.addRoute("GET", "/form", new StringRoute(Resource.getStringForResource("form.html"), "text/html"));
+        router.addRoute("POST", "/form", new StringSubstitutionRoute(Resource.getStringForResource("form.jrv.html")));
 
         new Server(9999);
     }
