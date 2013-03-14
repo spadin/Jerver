@@ -1,11 +1,14 @@
 package com.jerver.http.server;
 
+import com.jerver.http.route.FileRoute;
 import com.jerver.http.route.Router;
 import com.jerver.http.route.SleepyRoute;
+import com.jerver.http.route.StringSubstitutionRoute;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Paths;
 
 public class Server {
     private static final Router router = Router.INSTANCE;
@@ -30,6 +33,8 @@ public class Server {
         router.setPublicDirectory("src/test/resources");
         router.addRoute("GET", "/hello", "Hello World!");
         router.addRoute("GET", "/time", new SleepyRoute(1000));
+        router.addRoute("GET", "/form", new FileRoute(Paths.get("src/main/resources/form.html")));
+        router.addRoute("POST", "/form", new StringSubstitutionRoute(Paths.get("src/main/resources/form.jrv.html")));
 
         new Server(9999);
     }

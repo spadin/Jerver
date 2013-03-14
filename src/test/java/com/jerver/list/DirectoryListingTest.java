@@ -15,6 +15,6 @@ public class DirectoryListingTest {
     @Test
     public void testGetList() throws Exception {
         List<Path> directoryPathList = directoryListing.getList();
-        assertEquals(6, directoryPathList.size());
+        assertEquals(7, directoryPathList.size());
     }
 }
