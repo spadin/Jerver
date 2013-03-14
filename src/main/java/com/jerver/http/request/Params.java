@@ -10,7 +10,12 @@ public class Params {
         String[] pairs = paramString.split("&");
         for(int i = 0; i < pairs.length; i++) {
             String[] pair = pairs[i].split("=");
-            params.put(pair[0], pair[1]);
+            String key = pair[0];
+            String val = "";
+            if(pair.length == 2) {
+                val = pair[1];
+            }
+            params.put(key, val);
         }
 
         return params;
