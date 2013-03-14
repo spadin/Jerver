@@ -43,7 +43,7 @@ public class RouterTest {
     @Test
     public void testSetPublicDirectory() throws Exception {
         router.reset();
-        router.setPublicDirectory("resources");
+        router.setPublicDirectory("src/test/resources");
 
         Request request = new MockRequest("GET", "/");
         MockResponse response = new MockResponse();
@@ -55,7 +55,7 @@ public class RouterTest {
     @Test
     public void testPublicRoutesAreProperlyAdded() throws Exception {
         router.reset();
-        router.setPublicDirectory("resources");
+        router.setPublicDirectory("src/test/resources");
 
         Request request = new MockRequest("GET", "/test.txt");
         MockResponse response = new MockResponse();

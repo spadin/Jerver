@@ -1,10 +1,15 @@
 package com.jerver.http.server;
 
+import com.jerver.http.route.Router;
+import com.jerver.http.route.SleepyRoute;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
+    private static final Router router = Router.INSTANCE;
+
     public Server(int port) {
         try {
             ServerSocket listener = new ServerSocket(port);
@@ -19,5 +24,14 @@ public class Server {
             System.out.println("IOException on binding to port: " + port);
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[]args) {
+        router.setPublicDirectory("src/test/resources");
+        router.addRoute("GET", "/hello", "Hello World!");
+        router.addRoute("GET", "/time", new SleepyRoute(1000));
+        router.addRoute("GET", "/time", new SleepyRoute(1000));
+
+        new Server(9999);
     }
 }

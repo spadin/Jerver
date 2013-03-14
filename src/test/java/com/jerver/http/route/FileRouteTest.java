@@ -14,19 +14,19 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 public class FileRouteTest {
     @Test
     public void testPlaintextContentType() throws Exception {
-        FileRoute route = new FileRoute(Paths.get("resources/test.txt"));
+        FileRoute route = new FileRoute(Paths.get("src/test/resources/test.txt"));
         assertEquals("text/plain", route.getContentType());
     }
 
     @Test
     public void testHtmlContentType() throws Exception {
-        FileRoute route = new FileRoute(Paths.get("resources/test.html"));
+        FileRoute route = new FileRoute(Paths.get("src/test/resources/test.html"));
         assertEquals("text/html", route.getContentType());
     }
 
     @Test
     public void testPlaintextFileRoute() throws Exception {
-        FileRoute route = new FileRoute(Paths.get("resources/test.txt"));
+        FileRoute route = new FileRoute(Paths.get("src/test/resources/test.txt"));
         Request request = new Request();
         MockResponse response = new MockResponse();
         route.resolve(request, response);
