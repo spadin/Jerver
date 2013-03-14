@@ -6,7 +6,7 @@ Usage
 
     $ java -jar /path/to/jerver.jar -p 9999 -d /path/to/public
 
-Options flags:
+Option flags:
 
     -p  port
     -d  public directory
