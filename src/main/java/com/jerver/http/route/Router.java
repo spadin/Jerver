@@ -71,9 +71,20 @@ public class Router {
 
     private class DirectoryRouteVisitor extends SimpleFileVisitor<Path> {
         @Override
-        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-            String uri = "/" + publicDirectoryPath.relativize(file);
-            addRoute("GET", uri, new FileRoute(file));
+        public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
+            String uri = "/" + publicDirectoryPath.relativize(path);
+            addRoute("GET", uri, new FileRoute(path));
+            return CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult preVisitDirectory(Path path, BasicFileAttributes attrs) {
+            String uri = "/";
+            String uriPath = publicDirectoryPath.relativize(path).toString();
+            if(!uriPath.equals("")) {
+                uri += uriPath + "/";
+            }
+            addRoute("GET", uri, new DirectoryRoute(publicDirectoryPath.relativize(path), publicDirectoryPath));
             return CONTINUE;
         }
     }
