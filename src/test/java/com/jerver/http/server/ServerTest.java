@@ -41,4 +41,11 @@ public class ServerTest {
 
         assertEquals(9997, opt);
     }
+
+    @Test
+    public void testGetOptionThrowsError() throws Exception {
+        String[] args = {"-p", "eight-throusand"};
+        int opt = Server.getOption("-p", 9999, args);
+        assertEquals(9999, opt);
+    }
 }

@@ -37,8 +37,12 @@ public class Server {
         router.setPublicDirectory(publicDir);
         router.addRoute("GET", "/hello", "Hello World!");
         router.addRoute("GET", "/time", new SleepyRoute(1000));
-        router.addRoute("GET", "/form", new StringRoute(Resource.getStringForResource("form.html"), "text/html"));
-        router.addRoute("POST", "/form", new StringSubstitutionRoute(Resource.getStringForResource("form.jrv.html")));
+        try {
+            router.addRoute("GET", "/form", new StringRoute(Resource.getStringForResource("form.html"), "text/html"));
+            router.addRoute("POST", "/form", new StringSubstitutionRoute(Resource.getStringForResource("form.jrv.html")));
+        } catch (IOException e) {
+            System.out.println("Failed getting resource");
+        }
 
         new Server(port);
     }
