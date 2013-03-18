@@ -1,6 +1,7 @@
 package com.jerver.http.request;
 
 import com.jerver.http.mock.MockInputStream;
+import com.jerver.http.stub.StubSystemOut;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,12 +11,12 @@ import static org.junit.Assert.assertEquals;
 public class RequestInputStreamParserTest {
     RequestInputStreamParser requestInputStream;
     Request request;
+    StubSystemOut systemOutStub = new StubSystemOut();
 
     @Before
     public void setUp() throws Exception {
         request = new Request();
         requestInputStream = new RequestInputStreamParser(request);
-
     }
 
     @Test
@@ -32,16 +33,14 @@ public class RequestInputStreamParserTest {
 
     @Test
     public void testDetectCRLFWithNullInputStream() throws Exception {
-        PrintStream original = System.out;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(baos));
         MockInputStream mockInputStream = new MockInputStream();
         mockInputStream.throwErrorOnRead = true;
 
+        systemOutStub.replace();
         requestInputStream.detectCRLF(mockInputStream);
-        System.setOut(original);
+        systemOutStub.reset();
 
-        assertEquals("Failed to read input stream.\n", baos.toString());
+        assertEquals("Failed to read input stream.\n", systemOutStub.getOutput());
     }
 
     @Test
@@ -50,7 +49,11 @@ public class RequestInputStreamParserTest {
         mockInputStream.readList.add(13);
         mockInputStream.readList.add(10);
 
-        assertEquals(true, requestInputStream.detectCRLF(mockInputStream));
+        systemOutStub.replace();
+        boolean detectCRLF = requestInputStream.detectCRLF(mockInputStream);
+        systemOutStub.reset();
+
+        assertEquals(true, detectCRLF);
     }
 
     @Test
@@ -59,21 +62,23 @@ public class RequestInputStreamParserTest {
         mockInputStream.readList.add(20);
         mockInputStream.readList.add(20);
 
-        assertEquals(false, requestInputStream.detectCRLF(mockInputStream));
+        systemOutStub.replace();
+        boolean detectCRLF = requestInputStream.detectCRLF(mockInputStream);
+        systemOutStub.reset();
+
+        assertEquals(false, detectCRLF);
     }
 
     @Test
     public void testDetectDoubleCRLFWithNullInputStream() throws Exception {
-        PrintStream original = System.out;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(baos));
         MockInputStream mockInputStream = new MockInputStream();
         mockInputStream.throwErrorOnRead = true;
 
+        systemOutStub.replace();
         requestInputStream.detectDoubleCRLF(mockInputStream);
-        System.setOut(original);
+        systemOutStub.reset();
 
-        assertEquals("Failed to read input stream.\n", baos.toString());
+        assertEquals("Failed to read input stream.\n", systemOutStub.getOutput());
     }
 
     @Test
@@ -84,7 +89,11 @@ public class RequestInputStreamParserTest {
         mockInputStream.readList.add(13);
         mockInputStream.readList.add(10);
 
-        assertEquals(true, requestInputStream.detectDoubleCRLF(mockInputStream));
+        systemOutStub.replace();
+        boolean detectDoubleCRLF = requestInputStream.detectDoubleCRLF(mockInputStream);
+        systemOutStub.reset();
+
+        assertEquals(true, detectDoubleCRLF);
     }
 
     @Test
@@ -95,7 +104,11 @@ public class RequestInputStreamParserTest {
         mockInputStream.readList.add(20);
         mockInputStream.readList.add(10);
 
-        assertEquals(false, requestInputStream.detectDoubleCRLF(mockInputStream));
+        systemOutStub.replace();
+        boolean detectDoubleCRLF = requestInputStream.detectDoubleCRLF(mockInputStream);
+        systemOutStub.reset();
+
+        assertEquals(false, detectDoubleCRLF);
     }
 
 }

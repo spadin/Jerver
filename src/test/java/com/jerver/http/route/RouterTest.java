@@ -2,6 +2,7 @@ package com.jerver.http.route;
 
 import com.jerver.http.request.Request;
 import com.jerver.http.mock.MockResponse;
+import com.jerver.http.stub.StubSystemOut;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -10,11 +11,9 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 
 import com.jerver.http.mock.MockRequest;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 public class RouterTest {
     private static final Router router = Router.INSTANCE;
+    StubSystemOut systemOutStub = new StubSystemOut();
 
     @Test
     public void testGetKey() throws Exception {
@@ -52,7 +51,9 @@ public class RouterTest {
     @Test
     public void testSetPublicDirectory() throws Exception {
         router.reset();
+        systemOutStub.replace();
         router.setPublicDirectory("src/test/resources");
+        systemOutStub.reset();
 
         Request request = new MockRequest("GET", "/");
         MockResponse response = new MockResponse();
@@ -65,19 +66,19 @@ public class RouterTest {
     public void testSetInvalidPublicDirectory() throws Exception {
         router.reset();
 
-        PrintStream original = System.out;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(baos));
+        systemOutStub.replace();
         router.setPublicDirectory("/does/not/exist");
-        System.setOut(original);
+        systemOutStub.reset();
 
-        assertEquals("Failed to walk file tree.\n", baos.toString());
+        assertEquals("Failed to walk file tree.\n", systemOutStub.getOutput());
     }
 
     @Test
     public void testPublicRoutesAreProperlyAdded() throws Exception {
         router.reset();
+        systemOutStub.replace();
         router.setPublicDirectory("src/test/resources");
+        systemOutStub.reset();
 
         Request request = new MockRequest("GET", "/test.txt");
         MockResponse response = new MockResponse();

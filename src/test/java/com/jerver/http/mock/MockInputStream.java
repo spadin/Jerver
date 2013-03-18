@@ -3,7 +3,6 @@ package com.jerver.http.mock;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
-import java.util.Stack;
 
 public class MockInputStream extends InputStream {
     public boolean throwErrorOnRead = false;

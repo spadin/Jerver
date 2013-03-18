@@ -14,7 +14,7 @@ public class DirectoryListing implements Listing {
     public List<Path> getList() {
         List<Path> result = new ArrayList<Path>();
         try {
-            DirectoryStream<Path> stream = Files.newDirectoryStream(this.path);
+            DirectoryStream<Path> stream = Files.newDirectoryStream(path);
 
             for (Path entry: stream) {
                 result.add(entry);
@@ -24,7 +24,7 @@ public class DirectoryListing implements Listing {
         } catch (DirectoryIteratorException ex) {
             System.out.println("Failed directory iterator.");
         } catch (IOException e) {
-            System.out.println("Failed to list directory.");
+            System.out.println("Failed to list directory." + e);
         }
         return result;
     }

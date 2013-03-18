@@ -1,9 +1,12 @@
 package com.jerver.http.server;
 
+import com.jerver.http.stub.StubSystemOut;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class ServerTest {
+    StubSystemOut systemOutStub = new StubSystemOut();
+
     @Test
     public void testConnection() {
 
@@ -43,8 +46,12 @@ public class ServerTest {
 
     @Test
     public void testGetOptionThrowsError() throws Exception {
-        String[] args = {"-p", "eight-throusand"};
+        String[] args = {"-p", "eight-thousand"};
+
+        systemOutStub.replace();
         int opt = Server.getOption("-p", 9999, args);
+        systemOutStub.reset();
+
         assertEquals(9999, opt);
     }
 }
