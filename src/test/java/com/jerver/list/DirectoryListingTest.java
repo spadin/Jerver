@@ -9,7 +9,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class DirectoryListingTest {
-    protected Path path = FileSystems.getDefault().getPath("/Users/sandropadin/IdeaProjects/Jerver/src/test/resources");
+    protected Path path = FileSystems.getDefault().getPath("src/test/resources");
     protected DirectoryListing directoryListing = new DirectoryListing(this.path);
 
     @Test

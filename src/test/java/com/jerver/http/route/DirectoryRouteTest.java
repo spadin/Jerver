@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
 public class DirectoryRouteTest {
-    protected DirectoryRoute route = new DirectoryRoute(Paths.get(""), Paths.get("/Users/sandropadin/IdeaProjects/Jerver/src/test/resources"));
+    protected DirectoryRoute route = new DirectoryRoute(Paths.get(""), Paths.get("/src/test/resources"));
 
     @Test
     public void testContentType() throws Exception {
@@ -22,13 +22,13 @@ public class DirectoryRouteTest {
 
     @Test
     public void testContainsParentDirectoryLink() throws Exception {
-        DirectoryRoute route = new DirectoryRoute(Paths.get("/images"), Paths.get("/Users/sandropadin/IdeaProjects/Jerver/src/test/resources"));
+        DirectoryRoute route = new DirectoryRoute(Paths.get("/images"), Paths.get("/src/test/resources"));
         assertThat(new String(route.getBody()), containsString("Parent directory"));
     }
 
     @Test
     public void testDoesNotContainParentDirectoryLink() throws Exception {
-        DirectoryRoute route = new DirectoryRoute(Paths.get(""), Paths.get("/Users/sandropadin/IdeaProjects/Jerver/src/test/resources"));
+        DirectoryRoute route = new DirectoryRoute(Paths.get(""), Paths.get("/src/test/resources"));
         assertThat(new String(route.getBody()), not(containsString("Parent directory")));
     }
 }
