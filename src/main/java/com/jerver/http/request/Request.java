@@ -26,7 +26,7 @@ public class Request {
         uri = lineParts[1];
     }
 
-    void generateParams() {
+    public void generateParams() {
         if(method == null) {
             return;
         }
@@ -55,7 +55,7 @@ public class Request {
         return Integer.parseInt(header.get("Content-Length"));
     }
 
-    void setBody(byte[] bytes) {
+    public void setBody(byte[] bytes) {
         bodyContent = bytes;
         body = new String(bodyContent);
     }

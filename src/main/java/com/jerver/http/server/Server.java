@@ -39,9 +39,9 @@ public class Server {
         router.addRoute("GET", "/time", new SleepyRoute(1000));
         try {
             router.addRoute("GET", "/form", new StringRoute(Resource.getStringForResource("form.html"), "text/html"));
-            router.addRoute("POST", "/form", new StringSubstitutionRoute(Resource.getStringForResource("form.jrv.html")));
+            router.addRoute("POST", "/form", new PostPrintoutRoute());
         } catch (IOException e) {
-            System.out.println("Failed getting resource");
+            System.out.println("Failed getting form resource");
         }
 
         new Server(port);

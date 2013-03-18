@@ -5,10 +5,10 @@ import com.jerver.http.response.Response;
 
 public class StringRoute implements Routable {
     protected String responseText;
-    private String contentType = "text/plain";
+    private String contentType;
 
     public StringRoute(String responseText) {
-        this.responseText = responseText;
+        this(responseText, "text/plain");
     }
 
     public StringRoute(String responseText, String contentType) {
