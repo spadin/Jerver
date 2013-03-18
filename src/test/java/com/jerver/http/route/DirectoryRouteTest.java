@@ -21,15 +21,6 @@ public class DirectoryRouteTest {
     }
 
     @Test
-    public void testDirectoryRoute() throws Exception {
-        Request request = new Request();
-        MockResponse response = new MockResponse();
-        route.resolve(request, response);
-
-        assertThat(response.getResponseText(), containsString("test"));
-    }
-
-    @Test
     public void testContainsParentDirectoryLink() throws Exception {
         DirectoryRoute route = new DirectoryRoute(Paths.get("/images"), Paths.get("/Users/sandropadin/IdeaProjects/Jerver/src/test/resources"));
         assertThat(new String(route.getBody()), containsString("Parent directory"));
