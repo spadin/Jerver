@@ -1,13 +1,10 @@
 package com.jerver.http.request;
 
+import com.jerver.http.mock.MockInputStream;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
-
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
 
 public class RequestInputStreamParserTest {
@@ -38,12 +35,8 @@ public class RequestInputStreamParserTest {
         PrintStream original = System.out;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         System.setOut(new PrintStream(baos));
-        InputStream mockInputStream = createMock(InputStream.class);
-
-        mockInputStream.mark(0);
-        expect(mockInputStream.read()).andThrow(
-                new IOException("Something terrible happened"));
-        replay(mockInputStream);
+        MockInputStream mockInputStream = new MockInputStream();
+        mockInputStream.throwErrorOnRead = true;
 
         requestInputStream.detectCRLF(mockInputStream);
         System.setOut(original);
@@ -53,34 +46,20 @@ public class RequestInputStreamParserTest {
 
     @Test
     public void testDetectCRLF() throws Exception {
-        InputStream mockInputStream = createMock(InputStream.class);
-
-        mockInputStream.mark(0);
-        expect(mockInputStream.read()).andReturn(13);
-        expect(mockInputStream.read()).andReturn(10);
-        mockInputStream.reset();
-
-        replay(mockInputStream);
-
+        MockInputStream mockInputStream = new MockInputStream();
+        mockInputStream.readList.add(13);
+        mockInputStream.readList.add(10);
 
         assertEquals(true, requestInputStream.detectCRLF(mockInputStream));
-
     }
 
     @Test
     public void testDetectNoCRLF() throws Exception {
-        InputStream mockInputStream = createMock(InputStream.class);
-
-        mockInputStream.mark(0);
-        expect(mockInputStream.read()).andReturn(10);
-        expect(mockInputStream.read()).andReturn(13);
-        mockInputStream.reset();
-
-        replay(mockInputStream);
-
+        MockInputStream mockInputStream = new MockInputStream();
+        mockInputStream.readList.add(20);
+        mockInputStream.readList.add(20);
 
         assertEquals(false, requestInputStream.detectCRLF(mockInputStream));
-
     }
 
     @Test
@@ -88,12 +67,8 @@ public class RequestInputStreamParserTest {
         PrintStream original = System.out;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         System.setOut(new PrintStream(baos));
-        InputStream mockInputStream = createMock(InputStream.class);
-
-        mockInputStream.mark(0);
-        expect(mockInputStream.read()).andThrow(
-                new IOException("Something terrible happened"));
-        replay(mockInputStream);
+        MockInputStream mockInputStream = new MockInputStream();
+        mockInputStream.throwErrorOnRead = true;
 
         requestInputStream.detectDoubleCRLF(mockInputStream);
         System.setOut(original);
@@ -103,37 +78,24 @@ public class RequestInputStreamParserTest {
 
     @Test
     public void testDetectDoubleCRLF() throws Exception {
-        InputStream mockInputStream = createMock(InputStream.class);
-
-        mockInputStream.mark(0);
-        expect(mockInputStream.read()).andReturn(13);
-        expect(mockInputStream.read()).andReturn(10);
-        expect(mockInputStream.read()).andReturn(13);
-        expect(mockInputStream.read()).andReturn(10);
-        mockInputStream.reset();
-
-        replay(mockInputStream);
+        MockInputStream mockInputStream = new MockInputStream();
+        mockInputStream.readList.add(13);
+        mockInputStream.readList.add(10);
+        mockInputStream.readList.add(13);
+        mockInputStream.readList.add(10);
 
         assertEquals(true, requestInputStream.detectDoubleCRLF(mockInputStream));
-
     }
 
     @Test
     public void testDetectNoDoubleCRLF() throws Exception {
-        InputStream mockInputStream = createMock(InputStream.class);
+        MockInputStream mockInputStream = new MockInputStream();
+        mockInputStream.readList.add(20);
+        mockInputStream.readList.add(10);
+        mockInputStream.readList.add(20);
+        mockInputStream.readList.add(10);
 
-        mockInputStream.mark(0);
-        expect(mockInputStream.read()).andReturn(10);
-        expect(mockInputStream.read()).andReturn(13);
-        expect(mockInputStream.read()).andReturn(10);
-        expect(mockInputStream.read()).andReturn(13);
-        mockInputStream.reset();
-
-        replay(mockInputStream);
-
-
-        assertEquals(false, requestInputStream.detectCRLF(mockInputStream));
-
+        assertEquals(false, requestInputStream.detectDoubleCRLF(mockInputStream));
     }
 
 }

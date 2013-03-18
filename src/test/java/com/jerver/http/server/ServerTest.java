@@ -1,15 +1,6 @@
 package com.jerver.http.server;
 
-import com.jerver.http.route.PostPrintoutRoute;
-import com.jerver.http.route.Router;
-import com.jerver.http.route.StringRoute;
-import com.jerver.resource.Resource;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
 
 public class ServerTest {
