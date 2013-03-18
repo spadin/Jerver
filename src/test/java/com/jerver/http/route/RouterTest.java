@@ -10,8 +10,17 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 
 import com.jerver.http.mock.MockRequest;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 public class RouterTest {
     private static final Router router = Router.INSTANCE;
+
+    @Test
+    public void testGetKey() throws Exception {
+        String key = router.getKey("GET", "/some/path");
+        assertEquals("GET /some/path", key);
+    }
 
     @Test
     public void testRouteExists() throws Exception {
@@ -50,6 +59,20 @@ public class RouterTest {
         router.resolve(request, response);
 
         assertEquals(200, response.status);
+    }
+
+    @Test
+    public void testSetInvalidPublicDirectory() throws Exception {
+        router.reset();
+
+        // Suppress output.
+        PrintStream original = System.out;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(baos));
+        router.setPublicDirectory("/does/not/exist");
+        System.setOut(original);
+
+        assertEquals("Failed to walk file tree.\n", baos.toString());
     }
 
     @Test

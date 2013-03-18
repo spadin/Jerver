@@ -10,7 +10,14 @@ public class ParamsTest {
     @Test
     public void testGenerateParams() {
         HashMap<String, String> params = Params.generateParams("var1=10&var2=hello");
-        assertEquals(params.get("var1"), "10");
-        assertEquals(params.get("var2"), "hello");
+        assertEquals("10", params.get("var1"));
+        assertEquals("hello", params.get("var2"));
+    }
+
+    @Test
+    public void testNullValueParams() throws Exception {
+        HashMap<String, String> params = Params.generateParams("var1=&var2=hello");
+        assertEquals("", params.get("var1"));
+        assertEquals("hello", params.get("var2"));
     }
 }

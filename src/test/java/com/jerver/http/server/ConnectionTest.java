@@ -33,4 +33,22 @@ public class ConnectionTest {
 
         assertThat(output.toString(), containsString("HTTP/1.1 404 Not Found"));
     }
+
+    @Test
+    public void testNullRequestMethod() throws Exception {
+        InputStream input = buildRequestInputStream(null, null);
+        OutputStream output = new ByteArrayOutputStream();
+        Socket socket = new MockSocket(input, output);
+
+        Connection connection = new Connection(socket);
+
+        // Suppress output.
+        PrintStream original = System.out;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(baos));
+        connection.run();
+        System.setOut(original);
+
+        assertThat(baos.toString(), containsString("No request method/uri\n"));
+    }
 }

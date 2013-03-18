@@ -27,20 +27,11 @@ public class Router {
         addRoute(method, uri, new StringRoute(responseString));
     }
 
-    public void addRoute(String method, String uri, Path path) {
-        Routable route = null;
-        if(Files.isDirectory(path)) {
-            route = new DirectoryRoute(path, publicDirectoryPath);
-        }
-
-        addRoute(method, uri, route);
-    }
-
     public void addRoute(String method, String uri, Routable route) {
         routes.put(getKey(method, uri), route);
     }
 
-    private String getKey(String method, String uri) {
+    public String getKey(String method, String uri) {
         return method + " " + uri;
     }
 

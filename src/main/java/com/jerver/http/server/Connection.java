@@ -23,12 +23,12 @@ public class Connection implements Runnable {
             request.parseInputStream(socket.getInputStream());
             response.setOutputStream(socket.getOutputStream());
 
-            router.resolve(request, response);
-            response.write();
-
-            if(request.method != null &&
-               request.uri != null) {
+            if(!request.method.equals("null") && !request.uri.equals("null")) {
+                router.resolve(request, response);
+                response.write();
                 System.out.println(response.status + " " + request.method + " " + request.uri);
+            } else {
+                System.out.println("No request method/uri");
             }
 
             socket.close();

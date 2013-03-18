@@ -61,6 +61,20 @@ public class RequestTest {
         request.setBody("awesome=true&cold=false".getBytes());
         request.generateParams();
         assertEquals("true", request.param.get("awesome"));
+    }
 
+    @Test
+    public void testProcessParamsWithNullMethod() throws Exception {
+        request.method = null;
+        request.setBody("awesome=true&cold=false".getBytes());
+        request.generateParams();
+        assertEquals(null, request.param.get("awesome"));
+    }
+
+    @Test
+    public void testProcessParamsForGet() throws Exception {
+        request.setRequestLine("GET /?test=1 HTTP/1.1");
+        request.generateParams();
+        assertEquals("1", request.param.get("test"));
     }
 }

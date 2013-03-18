@@ -37,4 +37,9 @@ public class MimeTypeTest {
     public void testHtmlMimeType() {
         assertEquals("text/html", mimeType.getForFilename("file.html"));
     }
+
+    @Test
+    public void testInvalidFile() throws Exception {
+        assertEquals(null, mimeType.getForFilename("no-extension-file"));
+    }
 }
