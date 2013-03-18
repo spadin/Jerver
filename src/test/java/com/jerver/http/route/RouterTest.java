@@ -65,7 +65,6 @@ public class RouterTest {
     public void testSetInvalidPublicDirectory() throws Exception {
         router.reset();
 
-        // Suppress output.
         PrintStream original = System.out;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         System.setOut(new PrintStream(baos));

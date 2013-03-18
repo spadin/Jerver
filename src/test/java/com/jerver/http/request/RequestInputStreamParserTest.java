@@ -2,7 +2,12 @@ package com.jerver.http.request;
 
 import org.junit.Before;
 import org.junit.Test;
-import java.io.ByteArrayInputStream;
+
+import java.io.*;
+
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
 
 public class RequestInputStreamParserTest {
@@ -29,30 +34,106 @@ public class RequestInputStreamParserTest {
     }
 
     @Test
-    public void testDetectCRLF() throws Exception {
-        String str = "\r\n";
-        ByteArrayInputStream bais = new ByteArrayInputStream(str.getBytes());
-        assertEquals(true, requestInputStream.detectCRLF(bais));
-        bais.close();
+    public void testDetectCRLFWithNullInputStream() throws Exception {
+        PrintStream original = System.out;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(baos));
+        InputStream mockInputStream = createMock(InputStream.class);
 
-        str = "no newline";
-        bais = new ByteArrayInputStream(str.getBytes());
-        assertEquals(false, requestInputStream.detectCRLF(bais));
-        bais.close();
+        mockInputStream.mark(0);
+        expect(mockInputStream.read()).andThrow(
+                new IOException("Something terrible happened"));
+        replay(mockInputStream);
+
+        requestInputStream.detectCRLF(mockInputStream);
+        System.setOut(original);
+
+        assertEquals("Failed to read input stream.\n", baos.toString());
     }
 
     @Test
-    public void testDoubleDetectCRLF() throws Exception {
-        String str = "\r\n\r\n";
-        ByteArrayInputStream bais = new ByteArrayInputStream(str.getBytes());
-        assertEquals(true, requestInputStream.detectDoubleCRLF(bais));
+    public void testDetectCRLF() throws Exception {
+        InputStream mockInputStream = createMock(InputStream.class);
 
-        str = "\r\n";
-        bais = new ByteArrayInputStream(str.getBytes());
-        assertEquals(false, requestInputStream.detectDoubleCRLF(bais));
+        mockInputStream.mark(0);
+        expect(mockInputStream.read()).andReturn(13);
+        expect(mockInputStream.read()).andReturn(10);
+        mockInputStream.reset();
 
-        str = "no newline";
-        bais = new ByteArrayInputStream(str.getBytes());
-        assertEquals(false, requestInputStream.detectDoubleCRLF(bais));
+        replay(mockInputStream);
+
+
+        assertEquals(true, requestInputStream.detectCRLF(mockInputStream));
+
     }
+
+    @Test
+    public void testDetectNoCRLF() throws Exception {
+        InputStream mockInputStream = createMock(InputStream.class);
+
+        mockInputStream.mark(0);
+        expect(mockInputStream.read()).andReturn(10);
+        expect(mockInputStream.read()).andReturn(13);
+        mockInputStream.reset();
+
+        replay(mockInputStream);
+
+
+        assertEquals(false, requestInputStream.detectCRLF(mockInputStream));
+
+    }
+
+    @Test
+    public void testDetectDoubleCRLFWithNullInputStream() throws Exception {
+        PrintStream original = System.out;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(baos));
+        InputStream mockInputStream = createMock(InputStream.class);
+
+        mockInputStream.mark(0);
+        expect(mockInputStream.read()).andThrow(
+                new IOException("Something terrible happened"));
+        replay(mockInputStream);
+
+        requestInputStream.detectDoubleCRLF(mockInputStream);
+        System.setOut(original);
+
+        assertEquals("Failed to read input stream.\n", baos.toString());
+    }
+
+    @Test
+    public void testDetectDoubleCRLF() throws Exception {
+        InputStream mockInputStream = createMock(InputStream.class);
+
+        mockInputStream.mark(0);
+        expect(mockInputStream.read()).andReturn(13);
+        expect(mockInputStream.read()).andReturn(10);
+        expect(mockInputStream.read()).andReturn(13);
+        expect(mockInputStream.read()).andReturn(10);
+        mockInputStream.reset();
+
+        replay(mockInputStream);
+
+        assertEquals(true, requestInputStream.detectDoubleCRLF(mockInputStream));
+
+    }
+
+    @Test
+    public void testDetectNoDoubleCRLF() throws Exception {
+        InputStream mockInputStream = createMock(InputStream.class);
+
+        mockInputStream.mark(0);
+        expect(mockInputStream.read()).andReturn(10);
+        expect(mockInputStream.read()).andReturn(13);
+        expect(mockInputStream.read()).andReturn(10);
+        expect(mockInputStream.read()).andReturn(13);
+        mockInputStream.reset();
+
+        replay(mockInputStream);
+
+
+        assertEquals(false, requestInputStream.detectCRLF(mockInputStream));
+
+    }
+
 }
