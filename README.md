@@ -16,6 +16,9 @@ Development
 
 ### Prerequisites
 
+This project uses the [java.nio.file package][2] heavily so you will
+need to use JDK 7. [Download the JDK 7 here][1]
+
 You will need to have your `JAVA_HOME` environment variable poiting to a
 1.7 JDK.
 
@@ -46,3 +49,6 @@ To generate a new package from the project
     $ mvn clean package
 
 You should now find `jerver.jar ` inside the `target` directory.
+
+[1]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+[2]: http://docs.oracle.com/javase/7/docs/api/java/nio/file/package-summary.html
