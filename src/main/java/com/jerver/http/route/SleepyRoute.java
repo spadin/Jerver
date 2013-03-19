@@ -19,14 +19,22 @@ public class SleepyRoute implements Routable{
         response.setBody(getBody());
     }
 
-    public byte[] getBody() {
+    public void sleep() {
         try {
-            Thread.sleep(this.milliseconds);
+            Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            System.out.println("Failed to sleep");
         }
+    }
+
+    public String getFormattedDate() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return df.format(new Date()).getBytes();
+        return df.format(new Date());
+    }
+
+    public byte[] getBody() {
+        sleep();
+        return getFormattedDate().getBytes();
     }
 
     public String getContentType() {

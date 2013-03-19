@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class FileRoute implements Routable {
-    private final Path filePath;
+    Path filePath;
     protected static final MimeType mimeType = MimeType.INSTANCE;
 
     public FileRoute(Path filePath) {
@@ -20,8 +20,8 @@ public class FileRoute implements Routable {
         byte[] body = null;
         try {
             body = Files.readAllBytes(filePath);
-        } catch (IOException e) {
-            System.out.println("Failed to open file: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Failed to open file");
         }
 
         return body;

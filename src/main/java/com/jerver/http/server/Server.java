@@ -1,5 +1,7 @@
 package com.jerver.http.server;
 
+import com.jerver.http.request.Request;
+import com.jerver.http.response.Response;
 import com.jerver.http.route.*;
 import com.jerver.resource.Resource;
 import org.apache.commons.lang3.StringUtils;
@@ -10,41 +12,65 @@ import java.net.Socket;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class Server {
+public class Server implements Runnable {
     private static final Router router = Router.INSTANCE;
+    public static boolean RUNNING = true;
+
+    int port;
+    ServerSocket listener;
 
     public Server(int port) {
+        this.port = port;
+    }
+
+    public Thread runAsThread(Runnable runnable) {
+        Thread thread = new Thread(runnable);
+        thread.run();
+        return thread;
+    }
+
+    public void run() {
         try {
-            ServerSocket listener = new ServerSocket(port);
-            System.out.println("Jerver started at http://localhost:" + port);
-            Socket socket;
-            while (true) {
-                socket = listener.accept();
-                Connection connection = new Connection(socket);
-                Thread t = new Thread(connection);
-                t.start();
+            while (Server.RUNNING) {
+                Socket socket = listener.accept();
+                Request request = new Request();
+                Response response = new Response();
+                Connection connection = new Connection(socket, request, response);
+                runAsThread(connection);
             }
-        } catch (IOException e) {
-            System.out.println("IOException on binding to port: " + port);
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("listener.accept failed");
         }
+    }
+
+    public void acquirePort() {
+        try {
+            listener = new ServerSocket(port);
+            System.out.println("Jerver started at http://localhost:" + port);
+        } catch (IOException e) {
+            System.out.println("Failed to acquire port" + e);
+        }
+    }
+    public void setPublicDirectory(String publicDir) {
+        router.setPublicDirectory(publicDir);
+    }
+
+    public void addDefaultRoutes() {
+        router.addRoute("GET", "/hello", "Hello World!");
+        router.addRoute("GET", "/time", new SleepyRoute(1000));
+        router.addRoute("GET", "/form", new StringRoute(Resource.getStringForResource("form.html"), "text/html"));
+        router.addRoute("POST", "/form", new PostPrintoutRoute());
     }
 
     public static void main(String[] args) {
         String publicDir = getOption("-d", "", args);
         int port = getOption("-p", 9999, args);
 
-        router.setPublicDirectory(publicDir);
-        router.addRoute("GET", "/hello", "Hello World!");
-        router.addRoute("GET", "/time", new SleepyRoute(1000));
-        try {
-            router.addRoute("GET", "/form", new StringRoute(Resource.getStringForResource("form.html"), "text/html"));
-            router.addRoute("POST", "/form", new PostPrintoutRoute());
-        } catch (IOException e) {
-            System.out.println("Failed getting form resource");
-        }
-
-        new Server(port);
+        Server server = new Server(port);
+        server.setPublicDirectory(publicDir);
+        server.addDefaultRoutes();
+        server.acquirePort();
+        server.run();
     }
 
     public static String getOption(String code, String def, String[] args) {
@@ -67,5 +93,9 @@ public class Server {
         }
 
         return opt;
+    }
+
+    public void stop() {
+        RUNNING = false;
     }
 }

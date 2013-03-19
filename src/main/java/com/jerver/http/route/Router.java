@@ -14,7 +14,7 @@ import java.util.Map;
 public class Router {
     Map<String, Routable> routes = new HashMap<String, Routable>();
     public static Router INSTANCE = new Router();
-    private Path publicDirectoryPath;
+    public Path publicDirectoryPath;
 
     private Router() {
 
@@ -70,13 +70,15 @@ public class Router {
         }
 
         @Override
-        public FileVisitResult preVisitDirectory(Path path, BasicFileAttributes attrs) {
+        public FileVisitResult preVisitDirectory(Path path, BasicFileAttributes attrs) throws IOException {
             String uri = "/";
             String uriPath = publicDirectoryPath.relativize(path).toString();
             if(!uriPath.equals("")) {
                 uri += uriPath + "/";
             }
+
             addRoute("GET", uri, new DirectoryRoute(publicDirectoryPath.relativize(path), publicDirectoryPath));
+
             return CONTINUE;
         }
     }

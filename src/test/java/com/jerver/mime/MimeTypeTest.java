@@ -2,7 +2,11 @@ package com.jerver.mime;
 
 import org.junit.Test;
 
+import java.lang.reflect.Constructor;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 public class MimeTypeTest {
     protected static final MimeType mimeType = MimeType.INSTANCE;
@@ -41,5 +45,10 @@ public class MimeTypeTest {
     @Test
     public void testInvalidFile() throws Exception {
         assertEquals(null, mimeType.getForFilename("no-extension-file"));
+    }
+
+    @Test
+    public void testLoadMimeTypes() throws Exception {
+        mimeType.loadMimeTypes();
     }
 }

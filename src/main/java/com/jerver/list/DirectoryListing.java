@@ -7,25 +7,21 @@ import java.util.List;
 
 public class DirectoryListing implements Listing {
     protected Path path;
+    protected DirectoryStream<Path> stream;
 
-    public DirectoryListing(Path path) {
+    public DirectoryListing(Path path) throws IOException {
         this.path = path;
+        this.stream = Files.newDirectoryStream(path);
     }
-    public List<Path> getList() {
+
+    public List<Path> getList() throws IOException {
         List<Path> result = new ArrayList<Path>();
-        try {
-            DirectoryStream<Path> stream = Files.newDirectoryStream(path);
 
-            for (Path entry: stream) {
-                result.add(entry);
-            }
-
-            stream.close();
-        } catch (DirectoryIteratorException ex) {
-            System.out.println("Failed directory iterator.");
-        } catch (IOException e) {
-            System.out.println("Failed to list directory." + e);
+        for (Path entry: stream) {
+            result.add(entry);
         }
+
+        stream.close();
         return result;
     }
 }

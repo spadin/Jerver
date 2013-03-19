@@ -1,54 +1,94 @@
 package com.jerver.http.server;
 
+import com.jerver.http.mock.MockRequest;
+import com.jerver.http.mock.MockResponse;
 import com.jerver.http.mock.MockSocket;
+import com.jerver.http.stub.StubSystemOut;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
-import java.net.Socket;
 
 import static com.jerver.http.HttpHelper.*;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
 public class ConnectionTest {
+    MockSocket socket;
+    MockRequest request;
+    MockResponse response;
+    Connection connection;
+    OutputStream output;
+    StubSystemOut systemOutStub = new StubSystemOut();
+
+
+    public void prepareTest(String method, String uri) {
+        InputStream input = buildRequestInputStream(method, uri);
+        output = new ByteArrayOutputStream();
+        socket = new MockSocket(input, output);
+        request = new MockRequest();
+        response = new MockResponse();
+        connection = new Connection(socket, request, response);
+    }
+
     @Test
     public void testConnection() {
-        InputStream input = buildRequestInputStream("HEAD", "/");
-        OutputStream output = new ByteArrayOutputStream();
-        Socket socket = new MockSocket(input, output);
+        prepareTest("HEAD", "/");
 
-        Connection connection = new Connection(socket);
-
-        // Suppress output.
-        PrintStream original = System.out;
-        System.setOut(new PrintStream(new ByteArrayOutputStream()));
-
+        systemOutStub.replace();
         connection.run();
-
-        System.setOut(original);
+        systemOutStub.reset();
 
         assertThat(output.toString(), containsString("HTTP/1.1 404 Not Found"));
     }
 
     @Test
-    public void testNullRequestMethod() throws Exception {
-        InputStream input = buildRequestInputStream(null, null);
-        OutputStream output = new ByteArrayOutputStream();
-        Socket socket = new MockSocket(input, output);
+    public void testSocketCloseException() throws Exception {
+        prepareTest("HEAD", "/");
+        socket.exceptionOnClose = true;
 
-        Connection connection = new Connection(socket);
-
-        // Suppress output.
-        PrintStream original = System.out;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(baos));
+        systemOutStub.replace();
         connection.run();
-        System.setOut(original);
+        systemOutStub.reset();
 
-        assertThat(baos.toString(), containsString("No request method/uri\n"));
+        assertThat(systemOutStub.getOutput(), containsString("Failed to run connection"));
+    }
+
+    @Test
+    public void testSocketGetInputStreamException() throws Exception {
+        prepareTest("GET", "/");
+        socket.exceptionOnGetInputStream = true;
+
+        systemOutStub.replace();
+        connection.run();
+        systemOutStub.reset();
+
+        assertThat(systemOutStub.getOutput(), containsString("Failed to run connection"));
+    }
+
+    @Test
+    public void testSocketGetOutputStreamException() throws Exception {
+        prepareTest("GET", "/");
+        socket.exceptionOnGetOutputStream = true;
+
+        systemOutStub.replace();
+        connection.run();
+        systemOutStub.reset();
+
+        assertThat(systemOutStub.getOutput(), containsString("Failed to run connection"));
+    }
+
+    @Test
+    public void testSocketWriteResponseException() throws Exception {
+        prepareTest("GET", "/");
+        response.exceptionOnWrite = true;
+
+        systemOutStub.replace();
+        connection.run();
+        systemOutStub.reset();
+
+        assertThat(systemOutStub.getOutput(), containsString("Failed to run connection"));
     }
 }

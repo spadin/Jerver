@@ -7,13 +7,26 @@ import java.io.IOException;
 
 public class MockResponse extends Response {
     protected ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    public boolean exceptionOnWrite = false;
+
     public MockResponse() {
         super();
         super.setOutputStream(outputStream);
     }
 
-    public String getResponseText() {
+    public void write() throws IOException {
+        if(exceptionOnWrite) {
+            throw new IOException("MockResponse#write exceptionOnWrite");
+        }
         super.write();
+    }
+
+    public String getResponseText() {
+        try {
+            write();
+        } catch (IOException e) {
+            System.out.println("Failed to write response in MockResponse#getResponseText");
+        }
         String response = outputStream.toString();
         try {
             outputStream.close();

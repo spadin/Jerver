@@ -5,6 +5,10 @@ import com.jerver.http.request.Request;
 import static com.jerver.http.HttpHelper.buildRequestInputStream;
 
 public class MockRequest extends Request {
+    public MockRequest() {
+        super();
+    }
+
     public MockRequest(String method, String uri) {
         this(method, uri, null);
     }

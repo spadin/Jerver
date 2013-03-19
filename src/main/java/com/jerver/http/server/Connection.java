@@ -9,31 +9,28 @@ import java.net.Socket;
 
 public class Connection implements Runnable {
     protected Socket socket;
+    protected Request request;
+    protected Response response;
     private static final Router router = Router.INSTANCE;
 
-    public Connection(Socket socket) {
+    public Connection(Socket socket, Request request, Response response) {
         this.socket = socket;
+        this.request = request;
+        this.response = response;
     }
 
     public void run() {
-        Request request = new Request();
-        Response response = new Response();
-
         try {
             request.parseInputStream(socket.getInputStream());
             response.setOutputStream(socket.getOutputStream());
-
-            if(!request.method.equals("null") && !request.uri.equals("null")) {
-                router.resolve(request, response);
-                response.write();
-                System.out.println(response.status + " " + request.method + " " + request.uri);
-            } else {
-                System.out.println("No request method/uri");
-            }
-
+            router.resolve(request, response);
+            response.write();
+            System.out.println(response.status + " " + request.method + " " + request.uri);
             socket.close();
-        } catch(IOException e) {
-            System.out.println("Failed to run connection");
+
+        } catch(Exception e) {
+            System.out.println("Failed to run connection.");
         }
+        return;
     }
 }

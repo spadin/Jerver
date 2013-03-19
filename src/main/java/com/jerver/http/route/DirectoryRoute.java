@@ -9,11 +9,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class DirectoryRoute implements Routable {
-    private final DirectoryListing directoryListing;
-    private final Path rootPath;
-    private final Path directoryPath;
+    DirectoryListing directoryListing;
+    Path rootPath;
+    Path directoryPath;
 
-    public DirectoryRoute(Path path, Path rootPath) {
+    public DirectoryRoute(Path path, Path rootPath) throws IOException {
         this.rootPath = rootPath;
         this.directoryPath = rootPath.resolve(path);
         this.directoryListing = new DirectoryListing(directoryPath);
@@ -47,9 +47,13 @@ public class DirectoryRoute implements Routable {
             html.append("<li><a href=\"../\">Parent directory</a></li>");
         }
 
-        for(Path path: directoryListing.getList()) {
-            if (isHidden(path)) continue;
-            appendPathItem(html, path);
+        try {
+            for(Path path: directoryListing.getList()) {
+                if (isHidden(path)) continue;
+                appendPathItem(html, path);
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to get directory listing.");
         }
 
         html.append("</ul></body></html>");
@@ -63,13 +67,9 @@ public class DirectoryRoute implements Routable {
         response.setBody(getBody());
     }
 
-    private boolean isHidden(Path path) {
-        try {
-            if(Files.isHidden(path)) {
-                return true;
-            }
-        } catch (IOException e) {
-            System.out.println("Couldn't check if file was hidden.");
+    private boolean isHidden(Path path) throws IOException {
+        if(Files.isHidden(path)) {
+            return true;
         }
         return false;
     }

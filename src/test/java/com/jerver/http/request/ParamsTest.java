@@ -5,8 +5,15 @@ import org.junit.Test;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ParamsTest {
+    @Test
+    public void testCreatingParams() throws Exception {
+        Params p = new Params();
+        assertNotNull(p);
+    }
+
     @Test
     public void testGenerateParams() {
         HashMap<String, String> params = Params.generateParams("var1=10&var2=hello");

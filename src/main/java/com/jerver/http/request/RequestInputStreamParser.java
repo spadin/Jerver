@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedList;
 
 public class RequestInputStreamParser {
     private final Request request;
@@ -13,13 +14,13 @@ public class RequestInputStreamParser {
     }
 
     public void parse(InputStream is) {
-        int b;
-        boolean readingHeaders = true;
-        boolean firstLine = true;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        BufferedInputStream bis = new BufferedInputStream(is);
-
         try {
+            int b;
+            boolean readingHeaders = true;
+            boolean firstLine = true;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+
             while ((b = bis.read()) != -1) {
                 baos.write(b);
 
@@ -55,7 +56,7 @@ public class RequestInputStreamParser {
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Read input stream failure.");
         }
     }

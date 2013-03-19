@@ -15,14 +15,9 @@ public class MimeType {
     public static final MimeType INSTANCE = new MimeType();
 
     private MimeType() {
-        try {
-            this.loadMimeTypes();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.loadMimeTypes();
     }
-
-    private void loadMimeTypes() throws IOException {
+    public void loadMimeTypes() {
         String mimeTypes = Resource.getStringForResource("mime.types");
         Scanner scanner = new Scanner(mimeTypes);
 

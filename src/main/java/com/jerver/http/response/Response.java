@@ -9,7 +9,7 @@ public class Response {
     public int status;
     private final static ResponseStatusCode statusCode = ResponseStatusCode.INSTANCE;
     private OutputStream outputStream;
-    private List<String> headers = new ArrayList<String>();
+    public List<String> headers = new ArrayList<String>();
     private byte[] body;
 
     public Response() {
@@ -33,36 +33,33 @@ public class Response {
         outputStream.write(10);
     }
 
-    public void write() {
-
-        try {
-            outputStream.write(getStatusLine().getBytes());
+    public void write() throws IOException {
+        outputStream.write(getStatusLine().getBytes());
+        writeCRLF(outputStream);
+        for(String header: headers) {
+            outputStream.write(header.getBytes());
             writeCRLF(outputStream);
-            for(String header: headers) {
-                outputStream.write(header.getBytes());
-                writeCRLF(outputStream);
-            }
-
-            if(hasBody()) {
-                String contentLengthStr = "Content-Length: " + body.length;
-                outputStream.write(contentLengthStr.getBytes());
-                writeCRLF(outputStream);
-            }
-
-            writeCRLF(outputStream);
-
-            if(hasBody()) {
-                outputStream.write(body);
-            }
-
-            outputStream.close();
-        } catch (IOException e) {
-            System.out.println("Failed writing response");
         }
+
+        if(hasBody()) {
+            String contentLengthStr = "Content-Length: " + body.length;
+            outputStream.write(contentLengthStr.getBytes());
+            writeCRLF(outputStream);
+        }
+
+        writeCRLF(outputStream);
+
+        if(hasBody()) {
+            outputStream.write(body);
+        }
+
+        outputStream.close();
     }
 
     public void appendHeader(String headerString) {
-        headers.add(headerString);
+        if(headerString != null) {
+            headers.add(headerString);
+        }
     }
 
     public void setBody(byte[] body) {

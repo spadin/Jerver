@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class ResponseTest {
@@ -34,6 +35,20 @@ public class ResponseTest {
         response.setOutputStream(baos);
         response.write();
         assertEquals("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n", baos.toString());
+    }
+
+    @Test
+    public void testAppendHeader() throws Exception {
+        Response response = new Response();
+        response.appendHeader("Content-Type: text/plain");
+        assertEquals("Content-Type: text/plain", response.headers.get(0));
+    }
+
+    @Test
+    public void testAppendNullHeader() throws Exception {
+        Response response = new Response();
+        response.appendHeader(null);
+        assertEquals(0, response.headers.size());
     }
 
     @Test

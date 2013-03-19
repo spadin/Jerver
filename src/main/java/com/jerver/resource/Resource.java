@@ -5,21 +5,24 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Resource {
-    public static String getStringForResource(String resource) throws IOException {;
+    public static String getStringForResource(String resource) {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(resource);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         int next;
 
-        next = inputStream.read();
-        while (next > -1) {
-            bos.write(next);
+        try {
             next = inputStream.read();
+            while (next > -1) {
+                bos.write(next);
+                next = inputStream.read();
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to getStringForResource");
+            return null;
         }
-        bos.flush();
-        byte[] result = bos.toByteArray();
-        bos.close();
 
+        byte[] result = bos.toByteArray();
         return new String(result);
     }
 }

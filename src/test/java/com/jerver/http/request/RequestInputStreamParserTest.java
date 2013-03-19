@@ -1,21 +1,24 @@
 package com.jerver.http.request;
 
 import com.jerver.http.mock.MockInputStream;
+import com.jerver.http.mock.MockRequest;
 import com.jerver.http.stub.StubSystemOut;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.containsString;
 
 public class RequestInputStreamParserTest {
     RequestInputStreamParser requestInputStream;
-    Request request;
+    MockRequest request;
     StubSystemOut systemOutStub = new StubSystemOut();
 
     @Before
     public void setUp() throws Exception {
-        request = new Request();
+        request = new MockRequest();
         requestInputStream = new RequestInputStreamParser(request);
     }
 
@@ -29,6 +32,15 @@ public class RequestInputStreamParserTest {
 
         assertEquals("HEAD", request.method);
         assertEquals("localhost:9999", request.header.get("Host"));
+    }
+
+    @Test
+    public void testNullParse() throws Exception {
+        systemOutStub.replace();
+        requestInputStream.parse(null);
+        systemOutStub.reset();
+
+        assertThat(systemOutStub.getOutput(), containsString("Read input stream failure"));
     }
 
     @Test
