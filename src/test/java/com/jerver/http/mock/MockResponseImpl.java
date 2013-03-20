@@ -1,22 +1,22 @@
 package com.jerver.http.mock;
 
-import com.jerver.http.response.Response;
+import com.jerver.http.response.ResponseImpl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class MockResponse extends Response {
+public class MockResponseImpl extends ResponseImpl {
     protected ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     public boolean exceptionOnWrite = false;
 
-    public MockResponse() {
+    public MockResponseImpl() {
         super();
         super.setOutputStream(outputStream);
     }
 
     public void write() throws IOException {
         if(exceptionOnWrite) {
-            throw new IOException("MockResponse#write exceptionOnWrite");
+            throw new IOException("MockResponseImpl#write exceptionOnWrite");
         }
         super.write();
     }
@@ -25,7 +25,7 @@ public class MockResponse extends Response {
         try {
             write();
         } catch (IOException e) {
-            System.out.println("Failed to write response in MockResponse#getResponseText");
+            System.out.println("Failed to write response in MockResponseImpl#getResponseText");
         }
         String response = outputStream.toString();
         try {

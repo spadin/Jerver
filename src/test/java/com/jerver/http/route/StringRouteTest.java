@@ -1,6 +1,6 @@
 package com.jerver.http.route;
 
-import com.jerver.http.mock.MockResponse;
+import com.jerver.http.mock.MockResponseImpl;
 import com.jerver.http.request.Request;
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ public class StringRouteTest {
     @Test
     public void testNewStringRoute() throws Exception {
         Request request = new Request();
-        MockResponse response = new MockResponse();
+        MockResponseImpl response = new MockResponseImpl();
         route.resolve(request, response);
 
         assertThat(response.getResponseText(), containsString("Hello World!"));

@@ -1,7 +1,7 @@
 package com.jerver.http.server;
 
 import com.jerver.http.request.Request;
-import com.jerver.http.response.Response;
+import com.jerver.http.response.ResponseImpl;
 import com.jerver.http.route.*;
 import com.jerver.resource.Resource;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +12,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ServerImpl implements Server {
-    private static final Router router = Router.INSTANCE;
+    private static final RouterImpl router = RouterImpl.INSTANCE;
     public static boolean RUNNING = true;
 
     int port;
@@ -35,7 +35,7 @@ public class ServerImpl implements Server {
             while (ServerImpl.RUNNING) {
                 Socket socket = listener.accept();
                 Request request = new Request();
-                Response response = new Response();
+                ResponseImpl response = new ResponseImpl();
                 Connection connection = new Connection(socket, request, response);
                 runAsThread(connection);
             }

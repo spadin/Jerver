@@ -1,19 +1,18 @@
 package com.jerver.http.server;
 
 import com.jerver.http.request.Request;
-import com.jerver.http.response.Response;
-import com.jerver.http.route.Router;
+import com.jerver.http.response.ResponseImpl;
+import com.jerver.http.route.RouterImpl;
 
-import java.io.*;
 import java.net.Socket;
 
 public class Connection implements Runnable {
     protected Socket socket;
     protected Request request;
-    protected Response response;
-    private static final Router router = Router.INSTANCE;
+    protected ResponseImpl response;
+    private static final RouterImpl router = RouterImpl.INSTANCE;
 
-    public Connection(Socket socket, Request request, Response response) {
+    public Connection(Socket socket, Request request, ResponseImpl response) {
         this.socket = socket;
         this.request = request;
         this.response = response;

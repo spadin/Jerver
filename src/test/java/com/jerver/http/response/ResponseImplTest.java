@@ -7,10 +7,10 @@ import java.io.ByteArrayOutputStream;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-public class ResponseTest {
+public class ResponseImplTest {
     @Test
     public void testSetStatusCode() throws Exception {
-        Response response = new Response();
+        ResponseImpl response = new ResponseImpl();
         response.setStatusCode(200);
         assertEquals("HTTP/1.1 200 OK", response.getStatusLine());
 
@@ -18,7 +18,7 @@ public class ResponseTest {
 
     @Test
     public void testWrite() throws Exception {
-        Response response = new Response();
+        ResponseImpl response = new ResponseImpl();
         response.setStatusCode(200);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         response.setOutputStream(baos);
@@ -28,7 +28,7 @@ public class ResponseTest {
 
     @Test
     public void testSetHeader() throws Exception {
-        Response response = new Response();
+        ResponseImpl response = new ResponseImpl();
         response.setStatusCode(200);
         response.appendHeader("Content-Type: text/plain");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -39,21 +39,21 @@ public class ResponseTest {
 
     @Test
     public void testAppendHeader() throws Exception {
-        Response response = new Response();
+        ResponseImpl response = new ResponseImpl();
         response.appendHeader("Content-Type: text/plain");
         assertEquals("Content-Type: text/plain", response.headers.get(0));
     }
 
     @Test
     public void testAppendNullHeader() throws Exception {
-        Response response = new Response();
+        ResponseImpl response = new ResponseImpl();
         response.appendHeader(null);
         assertEquals(0, response.headers.size());
     }
 
     @Test
     public void testSetBody() throws Exception {
-        Response response = new Response();
+        ResponseImpl response = new ResponseImpl();
         response.setStatusCode(200);
         response.appendHeader("Content-Type: text/plain");
         response.setBody("Hello World!".getBytes());

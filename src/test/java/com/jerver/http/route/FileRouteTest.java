@@ -1,7 +1,6 @@
 package com.jerver.http.route;
 
-import com.jerver.http.mock.MockRequest;
-import com.jerver.http.mock.MockResponse;
+import com.jerver.http.mock.MockResponseImpl;
 import com.jerver.http.request.Request;
 import com.jerver.http.stub.StubSystemOut;
 import org.junit.Test;
@@ -31,7 +30,7 @@ public class FileRouteTest {
     public void testPlaintextFileRoute() throws Exception {
         FileRoute route = new FileRoute(Paths.get("src/test/resources/test.txt"));
         Request request = new Request();
-        MockResponse response = new MockResponse();
+        MockResponseImpl response = new MockResponseImpl();
         route.resolve(request, response);
 
         assertThat(response.getResponseText(), containsString("This is a test file"));

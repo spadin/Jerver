@@ -1,7 +1,7 @@
 package com.jerver.http.server;
 
 import com.jerver.http.mock.MockRequest;
-import com.jerver.http.route.Router;
+import com.jerver.http.route.RouterImpl;
 import com.jerver.http.stub.StubSystemOut;
 import org.junit.Test;
 
@@ -15,7 +15,7 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 
 public class ServerImplTest {
     StubSystemOut systemOutStub = new StubSystemOut();
-    private static final Router router = Router.INSTANCE;
+    private static final RouterImpl router = RouterImpl.INSTANCE;
 
     @Test
     public void testInstance() {

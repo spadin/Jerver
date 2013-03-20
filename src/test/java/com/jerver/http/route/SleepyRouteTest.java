@@ -1,6 +1,6 @@
 package com.jerver.http.route;
 
-import com.jerver.http.mock.MockResponse;
+import com.jerver.http.mock.MockResponseImpl;
 import com.jerver.http.request.Request;
 import com.jerver.http.stub.StubSystemOut;
 import org.junit.Test;
@@ -66,7 +66,7 @@ public class SleepyRouteTest {
     public void testResolve() throws Exception {
         SleepyRoute route = new SleepyRoute(1);
         Request request = new Request();
-        MockResponse response = new MockResponse();
+        MockResponseImpl response = new MockResponseImpl();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String dateString = df.format(new Date());
         route.resolve(request, response);

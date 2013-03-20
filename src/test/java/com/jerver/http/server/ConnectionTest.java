@@ -1,10 +1,9 @@
 package com.jerver.http.server;
 
 import com.jerver.http.mock.MockRequest;
-import com.jerver.http.mock.MockResponse;
+import com.jerver.http.mock.MockResponseImpl;
 import com.jerver.http.mock.MockSocket;
 import com.jerver.http.stub.StubSystemOut;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -18,7 +17,7 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 public class ConnectionTest {
     MockSocket socket;
     MockRequest request;
-    MockResponse response;
+    MockResponseImpl response;
     Connection connection;
     OutputStream output;
     StubSystemOut systemOutStub = new StubSystemOut();
@@ -29,7 +28,7 @@ public class ConnectionTest {
         output = new ByteArrayOutputStream();
         socket = new MockSocket(input, output);
         request = new MockRequest();
-        response = new MockResponse();
+        response = new MockResponseImpl();
         connection = new Connection(socket, request, response);
     }
 

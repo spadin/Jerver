@@ -1,7 +1,7 @@
 package com.jerver.http.route;
 
+import com.jerver.http.mock.MockResponseImpl;
 import com.jerver.http.request.Request;
-import com.jerver.http.mock.MockResponse;
 import com.jerver.http.stub.StubSystemOut;
 import org.junit.Test;
 
@@ -11,8 +11,8 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 
 import com.jerver.http.mock.MockRequest;
 
-public class RouterTest {
-    private static final Router router = Router.INSTANCE;
+public class RouterImplTest {
+    private static final RouterImpl router = RouterImpl.INSTANCE;
     StubSystemOut systemOutStub = new StubSystemOut();
 
     @Test
@@ -39,7 +39,7 @@ public class RouterTest {
     @Test
     public void testResolveRoute() throws Exception {
         Request request = new MockRequest("GET", "/hello");
-        MockResponse response = new MockResponse();
+        MockResponseImpl response = new MockResponseImpl();
 
         router.reset();
         router.addRoute("GET", "/hello", "Hello World!");
@@ -56,7 +56,7 @@ public class RouterTest {
         systemOutStub.reset();
 
         Request request = new MockRequest("GET", "/");
-        MockResponse response = new MockResponse();
+        MockResponseImpl response = new MockResponseImpl();
         router.resolve(request, response);
 
         assertEquals(200, response.status);
@@ -81,7 +81,7 @@ public class RouterTest {
         systemOutStub.reset();
 
         Request request = new MockRequest("GET", "/test.txt");
-        MockResponse response = new MockResponse();
+        MockResponseImpl response = new MockResponseImpl();
         router.resolve(request, response);
 
         assertEquals(200, response.status);
