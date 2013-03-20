@@ -54,6 +54,7 @@ public class DirectoryRoute implements Routable {
             }
         } catch (Exception e) {
             System.out.println("Failed to get directory listing.");
+            System.out.println(e);
         }
 
         html.append("</ul></body></html>");

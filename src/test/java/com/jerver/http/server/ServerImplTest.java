@@ -13,19 +13,19 @@ import java.nio.file.Paths;
 import static org.junit.Assert.*;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
-public class ServerTest {
+public class ServerImplTest {
     StubSystemOut systemOutStub = new StubSystemOut();
     private static final Router router = Router.INSTANCE;
 
     @Test
     public void testInstance() {
-        Server server = new Server(9998);
+        ServerImpl server = new ServerImpl(9998);
         assertEquals(9998, server.port);
     }
 
     @Test
     public void testAcquirePort() throws Exception {
-        Server server = new Server(10001);
+        ServerImpl server = new ServerImpl(10001);
 
         systemOutStub.replace();
         server.acquirePort();
@@ -37,7 +37,7 @@ public class ServerTest {
 
     @Test
     public void testAcquirePortThatIsTaken() throws Exception {
-        Server server = new Server(10001);
+        ServerImpl server = new ServerImpl(10001);
 
         systemOutStub.replace();
         server.acquirePort();
@@ -59,7 +59,7 @@ public class ServerTest {
     @Test
     public void testGetOptionWhenSet() throws Exception {
         String[] args = {"-p", "9898", "-d", "/some/cool/path"};
-        String opt = Server.getOption("-d", "/src/test/resources", args);
+        String opt = ServerImpl.getOption("-d", "/src/test/resources", args);
 
         assertEquals("/some/cool/path", opt);
     }
@@ -67,7 +67,7 @@ public class ServerTest {
     @Test
     public void testGetOptionWhenNotSet() throws Exception {
         String[] args = {"-p", "9898"};
-        String opt = Server.getOption("-d", "/src/test/resources", args);
+        String opt = ServerImpl.getOption("-d", "/src/test/resources", args);
 
         assertEquals("/src/test/resources", opt);
     }
@@ -75,7 +75,7 @@ public class ServerTest {
     @Test
     public void testGetOptionWhenNothingIsSet() throws Exception {
         String[] args = {};
-        String opt = Server.getOption("-d", "/src/test/resources", args);
+        String opt = ServerImpl.getOption("-d", "/src/test/resources", args);
 
         assertEquals("/src/test/resources", opt);
     }
@@ -83,7 +83,7 @@ public class ServerTest {
     @Test
     public void testGetOptionAsInt() throws Exception {
         String[] args = {"-p", "9997"};
-        int opt = Server.getOption("-p", 9999, args);
+        int opt = ServerImpl.getOption("-p", 9999, args);
 
         assertEquals(9997, opt);
     }
@@ -93,7 +93,7 @@ public class ServerTest {
         String[] args = {"-p", "eight-thousand"};
 
         systemOutStub.replace();
-        int opt = Server.getOption("-p", 9999, args);
+        int opt = ServerImpl.getOption("-p", 9999, args);
         systemOutStub.reset();
 
         assertEquals(9999, opt);
@@ -101,7 +101,7 @@ public class ServerTest {
 
     @Test
     public void testAddDefaultRoutes() throws Exception {
-        Server server = new Server(10001);
+        ServerImpl server = new ServerImpl(10001);
         server.addDefaultRoutes();
 
         assertTrue(router.routeExists(new MockRequest("GET", "/hello")));
@@ -119,7 +119,7 @@ public class ServerTest {
             }
         };
 
-        Server server = new Server(10001);
+        ServerImpl server = new ServerImpl(10001);
         systemOutStub.replace();
         Thread thread = server.runAsThread(runnable);
         systemOutStub.reset();
@@ -130,7 +130,7 @@ public class ServerTest {
 
     @Test
     public void testSetPublicDirectory() throws Exception {
-        Server server = new Server(10001);
+        ServerImpl server = new ServerImpl(10001);
 
         systemOutStub.replace();
         server.setPublicDirectory("src/test/resources/");
@@ -141,7 +141,7 @@ public class ServerTest {
 
     @Test
     public void testRun() throws Exception {
-        Server server = new Server(10001);
+        ServerImpl server = new ServerImpl(10001);
         server.listener = new ServerSocket(10001) {
             @Override
             public Socket accept() throws IOException {
@@ -160,7 +160,7 @@ public class ServerTest {
 
     @Test
     public void testRunOnce() throws Exception {
-        Server server = new Server(10001);
+        ServerImpl server = new ServerImpl(10001);
         server.listener = new ServerSocket(10001) {
             private boolean firstAccept = true;
             @Override
@@ -185,31 +185,35 @@ public class ServerTest {
 
     @Test
     public void testRunNotRunning() throws Exception {
-        Server server = new Server(10001);
-        Server.RUNNING = false;
+        ServerImpl server = new ServerImpl(10001);
+        ServerImpl.RUNNING = false;
+
+        systemOutStub.replace();
         server.run();
+        systemOutStub.reset();
+        server.listener.close();
 
         // assertThat(systemOutStub.getOutput(), containsString("listener.accept failed"));
     }
 
     @Test
     public void testStop() throws Exception {
-        Server server = new Server(10001);
+        ServerImpl server = new ServerImpl(10001);
         server.stop();
 
-        assertFalse(Server.RUNNING);
+        assertFalse(ServerImpl.RUNNING);
     }
 
     @Test
     public void testMain() throws Exception {
-        Server.RUNNING = false;
+        ServerImpl.RUNNING = false;
 
         systemOutStub.replace();
-        Server.main(new String[] {});
+        ServerImpl.main(new String[]{});
         systemOutStub.reset();
 
         assertThat(systemOutStub.getOutput(), containsString("Jerver started"));
 
-        Server.RUNNING = true;
+        ServerImpl.RUNNING = true;
     }
 }

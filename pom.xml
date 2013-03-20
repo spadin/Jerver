@@ -67,7 +67,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.jerver.http.server.Server</mainClass>
+                            <mainClass>com.jerver.http.server.ServerImpl</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

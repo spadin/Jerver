@@ -7,21 +7,20 @@ import java.util.List;
 
 public class DirectoryListing implements Listing {
     protected Path path;
-    protected DirectoryStream<Path> stream;
 
-    public DirectoryListing(Path path) throws IOException {
+    public DirectoryListing(Path path) {
         this.path = path;
-        this.stream = Files.newDirectoryStream(path);
+
     }
 
     public List<Path> getList() throws IOException {
         List<Path> result = new ArrayList<Path>();
+        DirectoryStream<Path> stream = Files.newDirectoryStream(path);
 
         for (Path entry: stream) {
             result.add(entry);
         }
 
-        stream.close();
         return result;
     }
 }
