@@ -1,6 +1,6 @@
 package com.jerver.http;
 
-import com.jerver.http.request.Request;
+import com.jerver.http.request.RequestImpl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -26,8 +26,8 @@ public class HttpHelper {
         return new ByteArrayInputStream(req.getBytes());
     }
 
-    public static Request buildRequest(String method, String uri) {
-        Request request = new Request();
+    public static RequestImpl buildRequest(String method, String uri) {
+        RequestImpl request = new RequestImpl();
         request.parseInputStream(buildRequestInputStream(method, uri));
 
         return request;

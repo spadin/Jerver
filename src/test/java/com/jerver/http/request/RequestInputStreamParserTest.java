@@ -1,7 +1,7 @@
 package com.jerver.http.request;
 
 import com.jerver.http.mock.MockInputStream;
-import com.jerver.http.mock.MockRequest;
+import com.jerver.http.mock.MockRequestImpl;
 import com.jerver.http.stub.StubSystemOut;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,12 +13,12 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 
 public class RequestInputStreamParserTest {
     RequestInputStreamParser requestInputStream;
-    MockRequest request;
+    MockRequestImpl request;
     StubSystemOut systemOutStub = new StubSystemOut();
 
     @Before
     public void setUp() throws Exception {
-        request = new MockRequest();
+        request = new MockRequestImpl();
         requestInputStream = new RequestInputStreamParser(request);
     }
 

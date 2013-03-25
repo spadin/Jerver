@@ -1,6 +1,6 @@
 package com.jerver.http.server;
 
-import com.jerver.http.request.Request;
+import com.jerver.http.request.RequestImpl;
 import com.jerver.http.response.ResponseImpl;
 import com.jerver.http.route.*;
 import com.jerver.resource.Resource;
@@ -34,7 +34,7 @@ public class ServerImpl implements Server {
 
             while (ServerImpl.RUNNING) {
                 Socket socket = listener.accept();
-                Request request = new Request();
+                RequestImpl request = new RequestImpl();
                 ResponseImpl response = new ResponseImpl();
                 Connection connection = new Connection(socket, request, response);
                 runAsThread(connection);

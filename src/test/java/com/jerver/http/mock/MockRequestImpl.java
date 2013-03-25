@@ -1,19 +1,19 @@
 package com.jerver.http.mock;
 
-import com.jerver.http.request.Request;
+import com.jerver.http.request.RequestImpl;
 
 import static com.jerver.http.HttpHelper.buildRequestInputStream;
 
-public class MockRequest extends Request {
-    public MockRequest() {
+public class MockRequestImpl extends RequestImpl {
+    public MockRequestImpl() {
         super();
     }
 
-    public MockRequest(String method, String uri) {
+    public MockRequestImpl(String method, String uri) {
         this(method, uri, null);
     }
 
-    public MockRequest(String method, String uri, String body) {
+    public MockRequestImpl(String method, String uri, String body) {
         super();
         super.parseInputStream(buildRequestInputStream(method, uri, body));
     }

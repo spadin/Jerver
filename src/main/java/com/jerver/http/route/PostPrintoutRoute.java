@@ -1,18 +1,18 @@
 package com.jerver.http.route;
 
-import com.jerver.http.request.Request;
+import com.jerver.http.request.RequestImpl;
 import com.jerver.http.response.Response;
 
 import java.util.Map;
 
 public class PostPrintoutRoute implements Routable {
-    public void resolve(Request request, Response response) {
+    public void resolve(RequestImpl request, Response response) {
         response.setStatusCode(200);
         response.appendHeader("Content-Type: text/html");
         response.setBody(getBody(request));
     }
 
-    private byte[] getBody(Request request) {
+    private byte[] getBody(RequestImpl request) {
         String html = "<!DOCTYPE html>\n" +
                       "<html>\n" +
                       "<head>\n" +

@@ -1,6 +1,6 @@
 package com.jerver.http.route;
 
-import com.jerver.http.request.Request;
+import com.jerver.http.request.RequestImpl;
 import com.jerver.http.response.Response;
 import com.jerver.list.DirectoryListing;
 
@@ -62,7 +62,7 @@ public class DirectoryRoute implements Routable {
         return html.toString().getBytes();
     }
 
-    public void resolve(Request request, Response response) {
+    public void resolve(RequestImpl request, Response response) {
         response.setStatusCode(200);
         response.appendHeader("Content-Type: " + getContentType());
         response.setBody(getBody());

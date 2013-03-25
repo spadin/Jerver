@@ -1,8 +1,8 @@
 package com.jerver.http.route;
 
-import com.jerver.http.mock.MockRequest;
+import com.jerver.http.mock.MockRequestImpl;
 import com.jerver.http.mock.MockResponseImpl;
-import com.jerver.http.request.Request;
+import com.jerver.http.request.RequestImpl;
 import org.junit.Test;
 
 import static org.junit.Assert.assertThat;
@@ -12,7 +12,7 @@ public class PostPrintoutRouteTest {
     @Test
     public void testGetContentType() throws Exception {
         PostPrintoutRoute route = new PostPrintoutRoute();
-        Request request = new MockRequest("POST", "/hello", "var1=test&hello=world");
+        RequestImpl request = new MockRequestImpl("POST", "/hello", "var1=test&hello=world");
         MockResponseImpl response = new MockResponseImpl();
 
         route.resolve(request, response);

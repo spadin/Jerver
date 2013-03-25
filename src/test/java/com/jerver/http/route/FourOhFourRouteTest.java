@@ -1,7 +1,7 @@
 package com.jerver.http.route;
 
 import com.jerver.http.mock.MockResponseImpl;
-import com.jerver.http.request.Request;
+import com.jerver.http.request.RequestImpl;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -17,7 +17,7 @@ public class FourOhFourRouteTest {
 
     @Test
     public void testResponse() throws Exception {
-        Request request = new Request();
+        RequestImpl request = new RequestImpl();
         MockResponseImpl response = new MockResponseImpl();
         FourOhFourRoute route = new FourOhFourRoute();
         route.resolve(request, response);

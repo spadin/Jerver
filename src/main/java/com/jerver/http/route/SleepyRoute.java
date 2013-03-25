@@ -1,6 +1,6 @@
 package com.jerver.http.route;
 
-import com.jerver.http.request.Request;
+import com.jerver.http.request.RequestImpl;
 import com.jerver.http.response.Response;
 
 import java.text.SimpleDateFormat;
@@ -13,7 +13,7 @@ public class SleepyRoute implements Routable{
         this.milliseconds = milliseconds;
     }
 
-    public void resolve(Request request, Response response) {
+    public void resolve(RequestImpl request, Response response) {
         response.setStatusCode(200);
         response.appendHeader("Content-type: " + getContentType());
         response.setBody(getBody());

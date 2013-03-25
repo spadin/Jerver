@@ -1,15 +1,14 @@
 package com.jerver.http.route;
 
+import com.jerver.http.mock.MockRequestImpl;
 import com.jerver.http.mock.MockResponseImpl;
-import com.jerver.http.request.Request;
+import com.jerver.http.request.RequestImpl;
 import com.jerver.http.stub.StubSystemOut;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
-
-import com.jerver.http.mock.MockRequest;
 
 public class RouterImplTest {
     private static final RouterImpl router = RouterImpl.INSTANCE;
@@ -23,22 +22,22 @@ public class RouterImplTest {
 
     @Test
     public void testRouteExists() throws Exception {
-        Request request;
+        RequestImpl request;
 
         router.reset();
         router.addRoute("GET", "/hello", "Hello World!");
 
-        request = new MockRequest("GET", "/hello");
+        request = new MockRequestImpl("GET", "/hello");
         assertEquals(true, router.routeExists(request));
 
-        request = new MockRequest("GET", "/does-not-exist");
+        request = new MockRequestImpl("GET", "/does-not-exist");
         assertEquals(false, router.routeExists(request));
 
     }
 
     @Test
     public void testResolveRoute() throws Exception {
-        Request request = new MockRequest("GET", "/hello");
+        RequestImpl request = new MockRequestImpl("GET", "/hello");
         MockResponseImpl response = new MockResponseImpl();
 
         router.reset();
@@ -55,7 +54,7 @@ public class RouterImplTest {
         router.setPublicDirectory("src/test/resources");
         systemOutStub.reset();
 
-        Request request = new MockRequest("GET", "/");
+        RequestImpl request = new MockRequestImpl("GET", "/");
         MockResponseImpl response = new MockResponseImpl();
         router.resolve(request, response);
 
@@ -80,7 +79,7 @@ public class RouterImplTest {
         router.setPublicDirectory("src/test/resources");
         systemOutStub.reset();
 
-        Request request = new MockRequest("GET", "/test.txt");
+        RequestImpl request = new MockRequestImpl("GET", "/test.txt");
         MockResponseImpl response = new MockResponseImpl();
         router.resolve(request, response);
 

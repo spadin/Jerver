@@ -1,6 +1,6 @@
 package com.jerver.http.server;
 
-import com.jerver.http.mock.MockRequest;
+import com.jerver.http.mock.MockRequestImpl;
 import com.jerver.http.route.RouterImpl;
 import com.jerver.http.stub.StubSystemOut;
 import org.junit.Test;
@@ -104,10 +104,10 @@ public class ServerImplTest {
         ServerImpl server = new ServerImpl(10001);
         server.addDefaultRoutes();
 
-        assertTrue(router.routeExists(new MockRequest("GET", "/hello")));
-        assertTrue(router.routeExists(new MockRequest("GET", "/time")));
-        assertTrue(router.routeExists(new MockRequest("GET", "/form")));
-        assertTrue(router.routeExists(new MockRequest("POST", "/form", "test=test")));
+        assertTrue(router.routeExists(new MockRequestImpl("GET", "/hello")));
+        assertTrue(router.routeExists(new MockRequestImpl("GET", "/time")));
+        assertTrue(router.routeExists(new MockRequestImpl("GET", "/form")));
+        assertTrue(router.routeExists(new MockRequestImpl("POST", "/form", "test=test")));
     }
 
     @Test

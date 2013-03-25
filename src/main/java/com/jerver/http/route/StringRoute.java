@@ -1,6 +1,6 @@
 package com.jerver.http.route;
 
-import com.jerver.http.request.Request;
+import com.jerver.http.request.RequestImpl;
 import com.jerver.http.response.Response;
 
 public class StringRoute implements Routable {
@@ -16,7 +16,7 @@ public class StringRoute implements Routable {
         this.contentType = contentType;
     }
 
-    public void resolve(Request request, Response response) {
+    public void resolve(RequestImpl request, Response response) {
         response.setStatusCode(200);
         response.appendHeader("Content-Type: " + getContentType());
         response.setBody(getBody());

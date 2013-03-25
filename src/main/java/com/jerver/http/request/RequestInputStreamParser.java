@@ -4,12 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.LinkedList;
 
 public class RequestInputStreamParser {
-    private final Request request;
+    private final RequestImpl request;
 
-    public RequestInputStreamParser(Request request) {
+    public RequestInputStreamParser(RequestImpl request) {
         this.request = request;
     }
 

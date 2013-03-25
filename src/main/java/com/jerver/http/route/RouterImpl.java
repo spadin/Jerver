@@ -1,6 +1,6 @@
 package com.jerver.http.route;
 
-import com.jerver.http.request.Request;
+import com.jerver.http.request.RequestImpl;
 import com.jerver.http.response.Response;
 
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class RouterImpl implements Router {
         return method + " " + uri;
     }
 
-    public void resolve(Request request, Response response) {
+    public void resolve(RequestImpl request, Response response) {
         Routable route = routes.get(getKey(request.method, request.uri));
         if(route == null) {
             route = new FourOhFourRoute();
@@ -46,7 +46,7 @@ public class RouterImpl implements Router {
         }
     }
 
-    public boolean routeExists(Request request) {
+    public boolean routeExists(RequestImpl request) {
         return (routes.get(getKey(request.method, request.uri)) != null);
     }
 

@@ -6,12 +6,12 @@ import org.junit.Test;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-public class RequestTest {
-    Request request;
+public class RequestImplTest {
+    RequestImpl request;
 
     @Before
     public void setUp() throws Exception {
-        request = new Request();
+        request = new RequestImpl();
     }
 
     @Test
@@ -76,5 +76,24 @@ public class RequestTest {
         request.setRequestLine("GET /?test=1 HTTP/1.1");
         request.generateParams();
         assertEquals("1", request.param.get("test"));
+    }
+
+    @Test
+    public void testUpdateUriAfterProcessingParams() throws Exception {
+        request.setRequestLine("GET /?test=1 HTTP/1.1");
+        request.generateParams();
+        assertEquals("/", request.uri);
+    }
+
+    @Test
+    public void testGetParam() throws Exception {
+        request.param.put("paramKey", "paramValue");
+        assertEquals("paramValue", request.getParam("paramKey"));
+    }
+
+    @Test
+    public void testGetHeader() throws Exception {
+        request.header.put("Location", "http://google.com");
+        assertEquals("http://google.com", request.getHeader("Location"));
     }
 }
